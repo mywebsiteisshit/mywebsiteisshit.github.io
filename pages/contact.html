@@ -1,0 +1,27 @@
+<section class="section" aria-labelledby="contactTitle">
+  <h2 id="contactTitle" class="h2">Contact</h2>
+
+  <div style="display:flex;gap:18px;flex-wrap:wrap">
+    <div style="flex:1;min-width:300px">
+      <form class="contact-form" onsubmit="event.preventDefault(); alert('Formulaire démo : copie les valeurs puis envoie depuis ton mail');">
+        <input class="input" type="text" name="name" placeholder="Ton nom" required />
+        <input class="input" type="email" name="email" placeholder="Ton email" required />
+        <input class="input" type="text" name="subject" placeholder="Objet" />
+        <textarea name="message" placeholder="Ton message" required></textarea>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-primary" type="submit">Envoyer</button>
+          <a class="btn btn-ghost" href="mailto:ton.email@example.com">Me contacter par mail</a>
+        </div>
+      </form>
+    </div>
+
+    <div style="flex:1;min-width:260px">
+      <div class="card">
+        <h3 class="h2">Réseaux</h3>
+        <p class="muted">LinkedIn • GitHub • Twitter</p>
+        <h3 class="h2" style="margin-top:12px">Télécharger mon CV</h3>
+        <a class="btn btn-ghost" href="#">Télécharger (PDF)</a>
+      </div>
+    </div>
+  </div>
+</section>

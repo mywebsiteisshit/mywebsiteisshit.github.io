@@ -1,0 +1,513 @@
+/* style.css - Apple-like, minimal, responsive avec éléments RGB spectaculaires */
+/* Utilise la font Inter importée dans index.html */
+
+:root{
+  --bg: #ffffff;
+  --muted: #6b7280;
+  --text: #0f172a;
+  --accent: #8e8e93; /* Gris neutre Apple-like */
+  --card: #f7f7fb;
+  --glass: rgba(255,255,255,0.6);
+  --shadow: 0 8px 24px rgba(15,23,42,0.06);
+  --radius: 14px;
+  --container-width: 1100px;
+}
+
+/* Mode Sombre : Les couleurs sombres sont appliquées ici */
+body.theme-dark {
+  --bg: #1e1e1e; /* Fond sombre */
+  --text: #f0f0f0; /* Texte clair */
+  --muted: #a0a0a0; /* Texte secondaire gris clair */
+  --accent: #bbbbbb; /* Accent plus clair */
+  --card: #2c2c2c; /* Fond de carte sombre */
+  --glass: rgba(44,44,44,0.6); /* Effet de verre sombre */
+  --shadow: 0 8px 24px rgba(0,0,0,0.4); /* Ombre plus visible sur fond sombre */
+}
+
+/* Ajustements visuels pour le mode sombre */
+body.theme-dark .site-header {
+  background:linear-gradient(180deg, rgba(30,30,30,0.85), rgba(30,30,30,0.75));
+  border-bottom:1px solid rgba(240,240,240,0.08);
+}
+body.theme-dark .card {
+  background: rgba(44, 44, 44, 0.8);
+}
+body.theme-dark .skill .bar > i{
+  background: linear-gradient(90deg, #bbbbbb, #a0a0a0);
+}
+body.theme-dark .timeline{
+  border-left:2px solid rgba(240,240,240,0.06);
+}
+body.theme-dark .testimonial{
+  background:linear-gradient(180deg,#2c2c2c,#3a3a3a);
+}
+body.theme-dark .input, body.theme-dark textarea{
+  background: #3a3a3a;
+  border: 1px solid rgba(240,240,240,0.1);
+  color: var(--text);
+}
+body.theme-dark .site-footer{
+    border-top:1px solid rgba(240,240,240,0.04);
+}
+body.theme-dark .social svg{
+    fill: var(--muted);
+}
+/* FIX: Assurer que l'animation RGB des boutons fonctionne en mode sombre */
+body.theme-dark .btn{
+  background: linear-gradient(var(--bg), var(--bg)) padding-box,
+              linear-gradient(90deg, 
+                #ff0080, #ff4d00, #ffaa00, #00ff88, #00d4ff, #0088ff, #8800ff, #ff0080 
+              ) border-box;
+  background-size: 100% 100%, 400% 100%; /* Rétablit le size nécessaire pour l'animation */
+  color: var(--text);
+}
+
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;
+  color:var(--text);
+  background:var(--bg);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  line-height:1.45;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Layout */
+.container{
+  max-width:var(--container-width);
+  margin:0 auto;
+  padding:0 28px;
+}
+
+/* Header - STABLE - Aucun changement de layout - FORCE GPU LAYER */
+.site-header{
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  backdrop-filter: blur(10px) saturate(150%);
+  background:linear-gradient(180deg, rgba(255,255,255,0.85), rgba(255,255,255,0.75));
+  border-bottom:1px solid rgba(15,23,42,0.08);
+  z-index:1000;
+  height:60px;
+  transform: translateZ(0); /* Force GPU layer pour isolation */
+  will-change: transform; /* Garde le layer GPU actif */
+}
+
+.header-inner{
+  max-width:var(--container-width);
+  margin:0 auto;
+  padding:0 28px;
+  height:100%;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  transform: translateZ(0); /* Force GPU layer */
+}
+
+/* Brand */
+.brand{
+  font-weight:700;
+  letter-spacing:0.3px;
+  font-size:17px;
+  color:var(--text);
+  text-decoration:none;
+  flex-shrink:0;
+  transform: translateZ(0); /* Force GPU layer */
+}
+
+/* Nav - STABLE - Largeur fixe pour éviter le mouvement */
+.nav-list{
+  display:flex;
+  gap:8px;
+  list-style:none;
+  margin:0;
+  padding:0;
+  align-items:center;
+  flex-shrink:0;
+  transform: translateZ(0); /* Force GPU layer */
+}
+
+.nav-list li{
+  transform: translateZ(0); /* Force GPU layer sur chaque item */
+}
+
+.nav-list a{
+  color:var(--muted);
+  text-decoration:none;
+  /* FIX: Uniformiser le font-weight pour éviter les mouvements */
+  font-weight:600; 
+  font-size:14px;
+  padding:8px 14px;
+  border-radius:8px;
+  white-space: nowrap;
+  /* Fix pour éviter le mouvement : isole l'élément pour le rendu GPU */
+  display: inline-block; 
+  position: relative; 
+  will-change: background-position; /* Optimisation pour l'animation */
+  transform: translateZ(0); /* Forcer le rendu GPU */
+  backface-visibility: hidden; 
+}
+
+/* Effet RGB défilant au hover sur les liens de navigation */
+.nav-list a:hover{
+  background: linear-gradient(90deg, 
+    #ff0080,
+    #ff4d00,
+    #ffaa00,
+    #00ff88,
+    #00d4ff,
+    #0088ff,
+    #8800ff,
+    #ff0080
+  );
+  background-size: 400% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: rgb-cycle 3s linear infinite;
+  color: transparent; /* S'assure que la couleur de base n'interfère pas */
+}
+
+/* Page active - RGB DÉFILANT, SANS FOND */
+.nav-list a.active{
+  background: linear-gradient(90deg, 
+    #ff0080,
+    #ff4d00,
+    #ffaa00,
+    #00ff88,
+    #00d4ff,
+    #0088ff,
+    #8800ff,
+    #ff0080
+  );
+  background-size: 400% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: rgb-cycle 3s linear infinite;
+  font-weight: 600; /* Garde le font-weight uniforme */
+  background-color: transparent; 
+  color: transparent; /* Assure que le texte est bien transparent pour voir le gradient */
+}
+
+/* NOUVEAU: Conteneur des boutons de contrôle */
+.header-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Espace entre les deux boutons */
+}
+
+/* Style du bouton bascule du thème */
+.theme-toggle{
+  background:none;
+  border:0;
+  padding:8px;
+  border-radius:10px;
+  cursor:pointer;
+  color:var(--text); /* Utilise la couleur du texte (bascule avec le thème) */
+  /* margin-right:8px; <-- Supprimé, géré par le gap du .header-controls */
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.theme-toggle:hover {
+    color: var(--accent);
+    transform: scale(1.05);
+}
+
+/* FIX: Assure une taille fixe pour l'icône pour éviter le saut (reflow) */
+.theme-toggle svg {
+    width: 20px;
+    height: 20px;
+    display: block; 
+    flex-shrink: 0;
+}
+
+/* Mobile toggle */
+.mobile-toggle{
+  display:none;
+  background:none;
+  border:0;
+  padding:8px;
+  border-radius:10px;
+  color:var(--text); /* AJOUTÉ: Assure que la couleur suit le thème (texte clair en mode sombre) */
+}
+
+/* Main content */
+.main-content{
+  /* FIX: Ajoute la largeur max, le centrage et le padding horizontal */
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: 90px 28px 80px 28px; /* Padding vertical (90/80) et padding horizontal (28) */
+  
+  min-height:70vh;
+  transition: opacity 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Sections style - AJOUT DE PADDING */
+.section{
+  background:transparent;
+  margin:18px 0;
+  padding: 0 0 24px 0; /* Padding en bas seulement, le contenu des cards gère le reste */
+  border-radius:12px;
+  position:relative;
+}
+
+/* Titres de PAGES (h1) - TEXTE NORMAL (pas de RGB) */
+.h1 {
+  font-size:34px;
+  margin:0 0 8px 0;
+  font-weight:700;
+  text-align: left;
+  color: var(--text);
+}
+
+/* Titres de sections/blocs (h2 dans .section) - PAS de RGB, texte normal */
+.section .h2,
+.h2{
+  font-size:20px;
+  margin:0 0 12px 0;
+  font-weight:700;
+  color:var(--text);
+  letter-spacing: 0.5px;
+  text-align: left;
+}
+
+/* Titres dans cards (h3, titres de projets/engagements) - PAS de RGB */
+.card h3,
+.card .h3,
+h3, .h3{
+  font-size:18px;
+  margin:0 0 8px 0;
+  font-weight:600;
+  color:var(--text);
+}
+
+@keyframes rgb-cycle {
+  0% { 
+    background-position: 0% 50%;
+  }
+  100% { 
+    background-position: 400% 50%;
+  }
+}
+
+/* Cards - Simple sans RGB - AJOUT DE PADDING */
+.card{
+  background: rgba(247, 247, 251, 0.8);
+  backdrop-filter: blur(8px);
+  border-radius:12px;
+  box-shadow:var(--shadow);
+  transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.3s ease;
+  padding: 18px 20px; /* Ajout de padding pour décoller le texte */
+}
+
+.card:hover{
+  transform:translateY(-6px);
+  box-shadow: 0 12px 40px rgba(15,23,42,0.12);
+}
+
+.muted{color:var(--muted); font-size:14px}
+
+/* Home hero - Fond transparent, aucune ombre */
+.hero{
+  display:flex;
+  gap:36px;
+  align-items:center;
+  justify-content:space-between;
+  padding:36px; /* Garde un bon padding pour la section Hero */
+  background: transparent;
+  border-radius:18px;
+  box-shadow: none;
+  border: none;
+}
+
+.hero-left{flex:1;min-width:0}
+.hero-title{
+  font-size:28px;
+  font-weight:700;
+  margin-bottom:8px;
+  color: var(--text);
+}
+.hero-sub{color:var(--muted);margin-bottom:18px}
+.cta-row{display:flex; gap:12px; align-items:center}
+
+/* Boutons - Bordure RGB animée UNIQUEMENT */
+.btn{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  padding:12px 24px;
+  border-radius:12px;
+  border:2px solid transparent;
+  font-weight:600;
+  text-decoration:none;
+  cursor:pointer;
+  background: linear-gradient(var(--bg), var(--bg)) padding-box,
+              linear-gradient(90deg, 
+                #ff0080,    /* Rose magenta */
+                #ff4d00,    /* Orange rouge */
+                #ffaa00,    /* Orange jaune */
+                #00ff88,    /* Vert menthe */
+                #00d4ff,    /* Cyan */
+                #0088ff,    /* Bleu */
+                #8800ff,    /* Violet */
+                #ff0080     /* Retour au rose pour boucle parfaite */
+              ) border-box;
+  background-size: 100% 100%, 400% 100%;
+  color: var(--text);
+  position: relative;
+  transition: transform 0.3s ease;
+  animation: btn-gradient 6s linear infinite; /* Animation RGB active */
+  will-change: background-position;
+}
+
+/* Supprime l'effet ::after (glow) */
+.btn:hover {
+  transform: translateY(-2px);
+  /* Pas de box-shadow ni de glow */
+}
+
+@keyframes btn-gradient {
+  0% { 
+    background-position: 0% 50%, 0% 50%; 
+  }
+  100% { 
+    background-position: 0% 50%, 400% 50%; 
+  }
+}
+
+.btn-primary, .btn-ghost {
+  /* Hérite du style de base .btn */
+}
+
+/* Card grid */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:18px;
+  margin-top:18px;
+}
+
+/* Resume timeline */
+.timeline{border-left:2px solid rgba(15,23,42,0.06);padding-left:18px}
+.timeline-item{margin-bottom:18px;padding-left:8px}
+.timeline-item .muted{font-size:13px}
+
+/* Skills bars - Simple sans RGB */
+.skill{
+  display:flex;align-items:center;gap:12px;margin-bottom:12px;
+}
+.skill .label{width:160px;font-weight:600}
+.skill .bar{
+  flex:1;
+  background:rgba(15,23,42,0.06);
+  height:12px;
+  border-radius:999px;
+  position:relative;
+  overflow: hidden;
+}
+.skill .bar > i{
+  position:absolute;
+  left:0;
+  top:0;
+  bottom:0;
+  border-radius:999px;
+  background: linear-gradient(90deg, #8e8e93, #6b7280);
+  width:0%;
+}
+
+/* Testimonials - AJOUT DE PADDING */
+.testimonial{
+  padding:18px 20px; /* Ajout de padding */
+  border-radius:12px;
+  background:linear-gradient(180deg,#fff,#fbfbfe);
+  box-shadow:var(--shadow)
+}
+.testimonial .quote{font-style:italic;color:var(--muted)}
+
+/* Contact form */
+.contact-form{display:grid;gap:12px;max-width:680px}
+.input, textarea{padding:12px;border-radius:10px;border:1px solid rgba(15,23,42,0.06);font-size:15px;width:100%;outline:none}
+textarea{min-height:140px;resize:vertical}
+.form-row{display:flex;gap:12px}
+
+/* Footer */
+.site-footer{border-top:1px solid rgba(15,23,42,0.04);padding:22px 0;background:transparent}
+.footer-inner{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.socials{display:flex;gap:12px}
+.social svg{width:20px;height:20px;fill:var(--muted)}
+
+/* Loader overlay for page transitions */
+.page-loader{
+  position:fixed;inset:0;pointer-events:none;opacity:0;transition:opacity .28s ease;background:linear-gradient(90deg, rgba(142, 142, 147, 0.06), rgba(255,255,255,0));
+}
+.page-loader.active{opacity:1;pointer-events:auto}
+
+/* Small touches */
+a{color:var(--accent)}
+small{color:var(--muted)}
+
+/* Responsive */
+@media (max-width:900px){
+  /* Masque le menu par défaut sur mobile (géré par JS au clic) */
+  .nav-list{display:none} 
+
+  /* Le bouton de bascule mobile apparaît */
+  .mobile-toggle{display:block}
+
+  /* FIX: Styles pour le menu mobile OUVERT */
+  .nav-list.open {
+    display: flex; /* Affiche le menu */
+    position: fixed; /* Position fixe par rapport au viewport */
+    top: 60px; /* Sous le header (hauteur 60px) */
+    left: 0;
+    right: 0;
+    flex-direction: column; /* Mise en page verticale */
+    background: var(--bg); /* Fond pour cacher le contenu */
+    border-top: 1px solid rgba(15,23,42,0.08); /* Ligne de séparation */
+    box-shadow: var(--shadow);
+    padding: 10px 0 20px 0;
+    max-height: calc(100vh - 60px); /* Empêche le menu de déborder l'écran */
+    overflow-y: auto; /* Permet le défilement du menu si nécessaire */
+    z-index: 999;
+  }
+  
+  .nav-list li {
+    width: 100%; /* Les éléments de liste prennent toute la largeur */
+  }
+  
+  .nav-list a {
+    display: block; /* Rendre le lien cliquable sur toute la largeur */
+    padding: 14px 28px; /* Grand padding pour faciliter le clic mobile */
+    border-radius: 0; 
+    text-align: left;
+    font-size: 16px;
+    font-weight: 500;
+  }
+  
+  /* Retirer l'effet RGB et le fond de la nav sur mobile */
+  .nav-list a:hover {
+    background: var(--card);
+    -webkit-text-fill-color: var(--text);
+    color: var(--text);
+    animation: none;
+  }
+  
+  .nav-list a.active {
+    background: var(--card); /* Fond pour l'élément actif */
+    -webkit-text-fill-color: var(--text);
+    color: var(--text);
+    animation: none;
+    font-weight: 600;
+  }
+
+  /* Styles existants pour les autres éléments */
+  .hero{flex-direction:column;align-items:flex-start}
+  /* Suppression de .header-inner{gap:12px} qui créait un problème d'espacement */
+  .footer-inner{flex-direction:column;align-items:flex-start}
+}
