@@ -1,30 +1,51 @@
 <section class="section" aria-labelledby="skillsTitle">
-  <h2 id="skillsTitle" class="h2">Compétences & certificats</h2>
+  <h2 id="skillsTitle" class="h2">Compétences & certifications</h2>
 
-  <div style="display:flex;gap:18px;flex-wrap:wrap">
-    <div style="flex:1;min-width:300px">
-      <h3 class="h2" style="font-size:16px">Compétences techniques</h3>
-      <div class="skill"><div class="label">Microélectronique</div><div class="bar"><i data-value="85"></i></div></div>
-      <div class="skill"><div class="label">C / Bas niveau</div><div class="bar"><i data-value="80"></i></div></div>
-      <div class="skill"><div class="label">Systèmes embarqués</div><div class="bar"><i data-value="75"></i></div></div>
-      <div class="skill"><div class="label">Gestion de projet</div><div class="bar"><i data-value="70"></i></div></div>
-      <div class="skill"><div class="label">Anglais technique</div><div class="bar"><i data-value="75"></i></div></div>
+  <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px;">
+    
+    <div class="card">
+      <h3 class="h2" style="font-size:16px; margin-bottom: 12px;">Compétences Techniques (Estimation)</h3>
+      <div class="skill"><div class="label">C / C++ / Bas niveau</div><div class="bar"><i data-value="85"></i></div></div>
+      <div class="skill"><div class="label">Microélectronique & Hardware</div><div class="bar"><i data-value="85"></i></div></div>
+      <div class="skill"><div class="label">Systèmes Embarqués (STM32)</div><div class="bar"><i data-value="80"></i></div></div>
+      <div class="skill"><div class="label">Python / MATLAB</div><div class="bar"><i data-value="75"></i></div></div>
+      <div class="skill"><div class="label">VHDL / SystemVerilog</div><div class="bar"><i data-value="65"></i></div></div>
     </div>
 
-    <div style="flex:1;min-width:300px">
-      <h3 class="h2" style="font-size:16px">Certificats</h3>
-      <ul class="muted">
-        <li>TOEFL (2022)</li>
-        <li>PSC1</li>
-        <li>Formation arbitre de Judo</li>
-      </ul>
-
-      <h3 class="h2" style="font-size:16px;margin-top:12px">Outils</h3>
-      <div class="grid" style="grid-template-columns:repeat(3,1fr)">
-        <div class="card">KiCad</div>
-        <div class="card">Git / GitHub</div>
-        <div class="card">C, Python</div>
+    <div class="card">
+      <h3 class="h2" style="font-size:16px; margin-bottom: 12px;">Programmation & Outils</h3>
+      <div class="skill-list" style="display:flex; flex-wrap:wrap; gap:8px;">
+        <span class="skill-tag">SystemVerilog</span>
+        <span class="skill-tag">Rust, OCaml</span>
+        <span class="skill-tag">JavaScript / HTML / CSS</span>
+        <span class="skill-tag">STM32CubeIDE</span>
+        <span class="skill-tag">KiCAD (PCB)</span>
+        <span class="skill-tag">Vector CANalyzer</span>
+        <span class="skill-tag">Git / Linux</span>
+        <span class="skill-tag">Prototypage & Soudure</span>
       </div>
+    </div>
+    
+    <div class="card">
+      <h3 class="h2" style="font-size:16px; margin-bottom: 12px;">Soft Skills & Gestion</h3>
+      <div class="skill-list" style="display:flex; flex-wrap:wrap; gap:8px;">
+        <span class="skill-tag">Leadership d'équipe</span>
+        <span class="skill-tag">Gestion de projet</span>
+        <span class="skill-tag">Résolution de problèmes</span>
+        <span class="skill-tag">Collaboration transversale</span>
+        <span class="skill-tag">Organisation d'événements</span>
+        <span class="skill-tag">Gestion budgétaire (10k+€)</span>
+      </div>
+    </div>
+    
+    <div class="card">
+      <h3 class="h2" style="font-size:16px; margin-bottom: 12px;">Langues & Certifications</h3>
+      <ul class="muted" style="padding-left:18px;list-style-type:disc;">
+        <li>**Anglais (C1) :** TOEFL & Cambridge</li>
+        <li>**Allemand (B1)**</li>
+        <li>Label HandiManagement</li>
+        <li>Formation Arbitre de Judo</li>
+      </ul>
     </div>
   </div>
 </section>
