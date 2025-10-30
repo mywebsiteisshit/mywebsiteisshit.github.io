@@ -6,9 +6,9 @@
   --muted: #6b7280;
   --text: #0f172a;
   --accent: #8e8e93; /* Gris neutre Apple-like */
-  --card: #f7f7fb;
-  --glass: rgba(255,255,255,0.6);
-  --shadow: 0 8px 24px rgba(15,23,42,0.06);
+  --card: rgba(255, 255, 255, 0.7); /* Plus transparent pour l'effet verre */
+  --glass: rgba(255,255,255,0.8); /* Moins opaque pour le fond des boutons, etc. */
+  --shadow: 0 10px 30px rgba(15,23,42,0.08); /* Ombre plus douce et diffuse */
   --radius: 14px;
   --container-width: 1100px;
 }
@@ -19,18 +19,18 @@ body.theme-dark {
   --text: #f0f0f0; /* Texte clair */
   --muted: #a0a0a0; /* Texte secondaire gris clair */
   --accent: #bbbbbb; /* Accent plus clair */
-  --card: #2c2c2c; /* Fond de carte sombre */
+  --card: rgba(44, 44, 44, 0.7); /* Fond de carte transparent pour l'effet verre sombre */
   --glass: rgba(44,44,44,0.6); /* Effet de verre sombre */
-  --shadow: 0 8px 24px rgba(0,0,0,0.4); /* Ombre plus visible sur fond sombre */
+  --shadow: 0 10px 30px rgba(0,0,0,0.5); /* Ombre plus visible sur fond sombre */
 }
 
 /* Ajustements visuels pour le mode sombre */
 body.theme-dark .site-header {
-  background:linear-gradient(180deg, rgba(30,30,30,0.85), rgba(30,30,30,0.75));
+  background:linear-gradient(180deg, rgba(30,30,30,0.9), rgba(30,30,30,0.8));
   border-bottom:1px solid rgba(240,240,240,0.08);
 }
 body.theme-dark .card {
-  background: rgba(44, 44, 44, 0.8);
+  background: var(--card); /* Utilise la variable --card mise à jour */
 }
 body.theme-dark .skill .bar > i{
   background: linear-gradient(90deg, #bbbbbb, #a0a0a0);
@@ -42,9 +42,11 @@ body.theme-dark .testimonial{
   background:linear-gradient(180deg,#2c2c2c,#3a3a3a);
 }
 body.theme-dark .input, body.theme-dark textarea{
-  background: #3a3a3a;
+  /* Nouvelle base plus glass pour le mode sombre */
+  background: rgba(58, 58, 58, 0.6); 
   border: 1px solid rgba(240,240,240,0.1);
   color: var(--text);
+  backdrop-filter: blur(8px); /* AJOUT DE BLUR pour le mode sombre */
 }
 body.theme-dark .site-footer{
     border-top:1px solid rgba(240,240,240,0.04);
@@ -52,13 +54,13 @@ body.theme-dark .site-footer{
 body.theme-dark .social svg{
     fill: var(--muted);
 }
-/* FIX: Assurer que l'animation RGB des boutons fonctionne en mode sombre */
+/* Le style des boutons en mode sombre est conservé pour la bordure RGB et le fond glass */
 body.theme-dark .btn{
   background: linear-gradient(var(--bg), var(--bg)) padding-box,
               linear-gradient(90deg, 
                 #ff0080, #ff4d00, #ffaa00, #00ff88, #00d4ff, #0088ff, #8800ff, #ff0080 
               ) border-box;
-  background-size: 100% 100%, 400% 100%; /* Rétablit le size nécessaire pour l'animation */
+  background-size: 100% 100%, 400% 100%; 
   color: var(--text);
 }
 
@@ -83,14 +85,15 @@ body{
   padding:0 28px;
 }
 
-/* Header - STABLE - Aucun changement de layout - FORCE GPU LAYER */
+/* Header - STABLE - FORCE GPU LAYER */
 .site-header{
   position:fixed;
   top:0;
   left:0;
   right:0;
-  backdrop-filter: blur(10px) saturate(150%);
-  background:linear-gradient(180deg, rgba(255,255,255,0.85), rgba(255,255,255,0.75));
+  /* Augmentation de l'effet glass */
+  backdrop-filter: blur(12px) saturate(180%); 
+  background:linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.8)); /* Légèrement moins opaque */
   border-bottom:1px solid rgba(15,23,42,0.08);
   z-index:1000;
   height:60px;
@@ -109,16 +112,8 @@ body{
   transform: translateZ(0); /* Force GPU layer */
 }
 
-/* Brand */
-.brand{
-  font-weight:700;
-  letter-spacing:0.3px;
-  font-size:17px;
-  color:var(--text);
-  text-decoration:none;
-  flex-shrink:0;
-  transform: translateZ(0); /* Force GPU layer */
-}
+/* Brand - Supprimé dans index.html */
+/* .brand{...} */ 
 
 /* Nav - STABLE - Largeur fixe pour éviter le mouvement */
 .nav-list{
@@ -139,8 +134,8 @@ body{
 .nav-list a{
   color:var(--muted);
   text-decoration:none;
-  /* FIX: Uniformiser le font-weight pour éviter les mouvements */
-  font-weight:600; 
+  /* CORRECTION: Les liens sont désormais en font-weight normal par défaut */
+  font-weight:400; 
   font-size:14px;
   padding:8px 14px;
   border-radius:8px;
@@ -153,7 +148,7 @@ body{
   backface-visibility: hidden; 
 }
 
-/* Effet RGB défilant au hover sur les liens de navigation */
+/* Effet RGB défilant au hover sur les liens de navigation (CONSERVÉ) */
 .nav-list a:hover{
   background: linear-gradient(90deg, 
     #ff0080,
@@ -171,9 +166,10 @@ body{
   -webkit-text-fill-color: transparent;
   animation: rgb-cycle 3s linear infinite;
   color: transparent; /* S'assure que la couleur de base n'interfère pas */
+  font-weight: 400; /* Garde le poids normal au survol */
 }
 
-/* Page active - RGB DÉFILANT, SANS FOND */
+/* Page active - RGB DÉFILANT, SANS FOND (CONSERVÉ) */
 .nav-list a.active{
   background: linear-gradient(90deg, 
     #ff0080,
@@ -190,7 +186,7 @@ body{
   background-clip: text;
   -webkit-text-fill-color: transparent;
   animation: rgb-cycle 3s linear infinite;
-  font-weight: 600; /* Garde le font-weight uniforme */
+  font-weight: 600; /* Le lien actif est en gras */
   background-color: transparent; 
   color: transparent; /* Assure que le texte est bien transparent pour voir le gradient */
 }
@@ -210,7 +206,6 @@ body{
   border-radius:10px;
   cursor:pointer;
   color:var(--text); /* Utilise la couleur du texte (bascule avec le thème) */
-  /* margin-right:8px; <-- Supprimé, géré par le gap du .header-controls */
   transition: transform 0.2s ease, color 0.2s ease;
 }
 
@@ -218,6 +213,125 @@ body{
     color: var(--accent);
     transform: scale(1.05);
 }
+
+/* --- STYLES DES BOUTONS DE LANGUE (FR/EN) --- */
+
+.lang-button {
+    height: 32px; /* Réduit la hauteur */
+    padding: 0 8px; /* Réduit le padding */
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 32px; /* Centre le texte */
+    flex-shrink: 0;
+    transition: transform 0.2s ease, opacity 0.3s ease, box-shadow 0.3s ease, background 0.2s ease, border 0.2s ease;
+    
+    /* Style par défaut (non actif): Fond blanc/sombre, PAS de contour */
+    border: 1px solid transparent; 
+    background: var(--bg);
+    color: var(--text);
+    opacity: 0.8;
+}
+
+.lang-button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(15, 23, 42, 0.05);
+    opacity: 1;
+}
+
+/* Style Français (Contour tricolore, Fond uni) */
+.lang-fr.active {
+    opacity: 1;
+    color: var(--text);
+    /* Définit une bordure virtuelle de 1px avec le tricolore (Bleu, Blanc, Rouge) */
+    border: 1px solid transparent; 
+    
+    background-image: linear-gradient(var(--bg), var(--bg)), 
+                      linear-gradient(90deg, 
+                        #0059b3 0%, #0059b3 33.3%, 
+                        #ffffff 33.3%, #ffffff 66.6%, 
+                        #cc0000 66.6%, #cc0000 100%
+                      );
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+}
+
+body.theme-dark .lang-fr.active {
+    /* Version plus douce des couleurs pour le contour sombre */
+    background-image: linear-gradient(var(--bg), var(--bg)), 
+                      linear-gradient(90deg, 
+                        #007aff 0%, #007aff 33.3%, 
+                        #f0f0f0 33.3%, #f0f0f0 66.6%, 
+                        #ff4040 66.6%, #ff4040 100% 
+                      );
+}
+
+
+/* Style Anglais (Contour noir/sombre, Fond uni) */
+.lang-en.active {
+    opacity: 1;
+    /* Contour de 1px d'épaisseur */
+    border: 1px solid var(--text); 
+    background: var(--bg);
+    color: var(--text);
+    box-shadow: none; /* Pas de shadow/glow */
+}
+body.theme-dark .lang-en.active {
+    /* Contour de 1px blanc/clair en mode sombre */
+    border: 1px solid var(--text); 
+    background: var(--bg);
+    color: var(--text);
+}
+/* --- FIN DES STYLES DE LANGUE --- */
+
+
+/* --- NOUVEAUX STYLES POUR LES BLOCS DE COMPÉTENCES (SKILL TAGS) --- */
+.skill-tag {
+    /* Style de base de la box */
+    display: inline-block;
+    padding: 4px 8px;
+    font-size: 13px;
+    font-weight: 500;
+    border-radius: 6px;
+    margin-bottom: 4px; /* Pour l'alignement flex-wrap */
+    
+    /* CORRECTION: Fond BLANC (ou sombre en mode dark) UNI */
+    background: var(--bg); 
+    color: var(--text);
+    border: 1px solid rgba(15, 23, 42, 0.1); 
+    
+    /* Préparation pour l'animation RGB */
+    position: relative;
+    z-index: 1; /* Assure que le texte est au-dessus */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+    /* Setup pour le contour RGB (par défaut invisible) */
+    background-image: linear-gradient(var(--bg), var(--bg)), /* Fond BLANC */
+                      linear-gradient(90deg, transparent, transparent); /* Contour transparent */
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+    background-size: 100% 100%, 400% 100%; /* Taille nécessaire pour l'animation */
+    border-width: 1px;
+}
+
+/* RGB Contour au survol */
+.skill-tag:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.1);
+
+    /* Activation du contour RGB */
+    border-color: transparent; /* Désactive la bordure solide */
+    background-image: linear-gradient(var(--bg), var(--bg)), 
+                      linear-gradient(90deg, 
+                        #ff0080, #ff4d00, #ffaa00, #00ff88, #00d4ff, #0088ff, #8800ff, #ff0080 
+                      );
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+    animation: btn-gradient 6s linear infinite; /* Réutilise l'animation de défilement RGB */
+}
+/* --- FIN STYLES BLOCS DE COMPÉTENCES --- */
+
 
 /* FIX: Assure une taille fixe pour l'icône pour éviter le saut (reflow) */
 .theme-toggle svg {
@@ -234,7 +348,7 @@ body{
   border:0;
   padding:8px;
   border-radius:10px;
-  color:var(--text); /* AJOUTÉ: Assure que la couleur suit le thème (texte clair en mode sombre) */
+  color:var(--text); 
 }
 
 /* Main content */
@@ -296,19 +410,31 @@ h3, .h3{
   }
 }
 
-/* Cards - Simple sans RGB - AJOUT DE PADDING */
+/* Cards - Liquid Glass (SANS RGB au hover) */
 .card{
-  background: rgba(247, 247, 251, 0.8);
-  backdrop-filter: blur(8px);
-  border-radius:12px;
+  /* Utilise la variable --card et augmente l'effet de flou */
+  background: var(--card); 
+  backdrop-filter: blur(12px); /* Augmentation de l'effet de flou */
+  border-radius:14px; /* Un peu plus arrondi */
   box-shadow:var(--shadow);
-  transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.3s ease;
-  padding: 18px 20px; /* Ajout de padding pour décoller le texte */
+  /* Transition sur le transform et box-shadow uniquement */
+  transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.3s ease; 
+  padding: 18px 20px;
+  position: relative; 
+  
+  /* AJOUT DE LA BORDURE SUBTILE */
+  border: 1px solid rgba(142, 142, 147, 0.3); /* Bordure subtile de base */
 }
 
+/* Retire l'animation et l'effet RGB sur le survol des cartes */
 .card:hover{
-  transform:translateY(-6px);
-  box-shadow: 0 12px 40px rgba(15,23,42,0.12);
+  transform:translateY(-6px); /* Mouvement plus léger au hover */
+  box-shadow: 0 12px 40px rgba(15,23,42,0.12); /* Ombre plus douce */
+  
+  /* RETOUR AU STYLE INITIAL SANS RGB/Gradient/animation */
+  background: var(--card); 
+  border: 1px solid rgba(142, 142, 147, 0.3); /* Conserve la bordure simple */
+  animation: none;
 }
 
 .muted{color:var(--muted); font-size:14px}
@@ -347,7 +473,8 @@ h3, .h3{
   font-weight:600;
   text-decoration:none;
   cursor:pointer;
-  background: linear-gradient(var(--bg), var(--bg)) padding-box,
+  /* Fond BLANC (ou sombre en mode dark) UNI */
+  background: linear-gradient(var(--bg), var(--bg)) padding-box, 
               linear-gradient(90deg, 
                 #ff0080,    /* Rose magenta */
                 #ff4d00,    /* Orange rouge */
@@ -357,7 +484,7 @@ h3, .h3{
                 #0088ff,    /* Bleu */
                 #8800ff,    /* Violet */
                 #ff0080     /* Retour au rose pour boucle parfaite */
-              ) border-box;
+              ) border-box; /* Bordure RGB */
   background-size: 100% 100%, 400% 100%;
   color: var(--text);
   position: relative;
@@ -432,7 +559,25 @@ h3, .h3{
 
 /* Contact form */
 .contact-form{display:grid;gap:12px;max-width:680px}
-.input, textarea{padding:12px;border-radius:10px;border:1px solid rgba(15,23,42,0.06);font-size:15px;width:100%;outline:none}
+.input, textarea{
+  padding:12px;
+  border-radius:12px; /* Plus arrondi pour l'effet glass */
+  border:1px solid rgba(15,23,42,0.1); /* Bordure plus visible */
+  font-size:15px;
+  width:100%;
+  outline:none;
+  
+  /* AJOUT DE L'EFFET GLASS */
+  background: rgba(255, 255, 255, 0.6); /* Fond plus transparent */
+  backdrop-filter: blur(8px); 
+  transition: all 0.3s ease;
+}
+
+.input:focus, textarea:focus{
+    border-color: #007aff; /* Couleur d'accentuation Apple-like */
+    box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.2);
+}
+
 textarea{min-height:140px;resize:vertical}
 .form-row{display:flex;gap:12px}
 
@@ -440,7 +585,17 @@ textarea{min-height:140px;resize:vertical}
 .site-footer{border-top:1px solid rgba(15,23,42,0.04);padding:22px 0;background:transparent}
 .footer-inner{display:flex;justify-content:space-between;align-items:center;gap:12px}
 .socials{display:flex;gap:12px}
-.social svg{width:20px;height:20px;fill:var(--muted)}
+
+/* REDUCTION ET UNIFORMISATION DE LA TAILLE DES LOGOS */
+.socials-icon {
+    width: 24px; /* Logo LinkedIn (image) */
+    height: 24px;
+}
+.social svg{
+    width: 24px; /* Logo GitHub (SVG) */
+    height: 24px;
+    fill:var(--muted);
+}
 
 /* Loader overlay for page transitions */
 .page-loader{

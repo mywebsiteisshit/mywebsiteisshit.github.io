@@ -1,17 +1,32 @@
 /* main.js
- - Chargement dynamique des pages depuis /pages/*.html
+ - Chargement dynamique des pages depuis /pages_lang/*.html
  - Gère l'historique (pushState) pour pouvoir partager des URLs
  - Ajoute animations simples (fade-in), mobile menu toggle, et animation de barres de compétences
  - Ajout de la logique du mode sombre (dark mode)
+ - AJOUT DE LA LOGIQUE MULTILINGUE (FR/EN)
 */
 
 const main = document.getElementById('mainContent');
 const loader = document.getElementById('pageLoader');
 const mobileToggle = document.getElementById('mobileToggle');
 const navList = document.getElementById('navList');
-const themeToggle = document.getElementById('themeToggle'); // Référence au bouton de bascule du thème
+const themeToggle = document.getElementById('themeToggle'); 
+
+// NOUVEAU: Références aux deux boutons de langue
+const langFrToggle = document.getElementById('langFrToggle'); 
+const langEnToggle = document.getElementById('langEnToggle'); 
 
 const pages = ['home','about','resume','projects','skills','engagements','testimonials','contact'];
+
+// NOUVEAU: Initialise la langue depuis localStorage
+let currentLang = localStorage.getItem('lang') || 'fr'; 
+
+
+// Helper pour obtenir la page courante
+function currentPageFromURL() {
+  const hash = window.location.hash.slice(1);
+  return hash || 'home';
+}
 
 // Mobile menu
 mobileToggle.addEventListener('click', () => {
@@ -26,6 +41,7 @@ mobileToggle.addEventListener('click', () => {
   document.body.style.overflow = isExpanded ? 'hidden' : '';
 });
 
+
 // Theme Toggle Logic
 function setDarkTheme(isDark) {
   document.body.classList.toggle('theme-dark', isDark);
@@ -34,7 +50,6 @@ function setDarkTheme(isDark) {
   
   // Mettre à jour l'icône du bascule
   const icon = themeToggle.querySelector('svg');
-  // L'icône est un soleil (clair) par défaut, on la change pour une lune (sombre) si on passe en dark mode
   if (isDark) {
     icon.innerHTML = '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>'; // Icône Lune
     icon.setAttribute('aria-label', 'Activer le mode clair');
@@ -44,46 +59,72 @@ function setDarkTheme(isDark) {
   }
 }
 
-// Écouteur pour le bouton de bascule du thème
 themeToggle.addEventListener('click', () => {
-  const isDark = document.body.classList.contains('theme-dark');
-  setDarkTheme(!isDark);
+  const isDark = !document.body.classList.contains('theme-dark');
+  setDarkTheme(isDark);
 });
 
-// Delegate clicks on nav (links with data-link)
-document.addEventListener('click', e => {
-  const a = e.target.closest('[data-link]');
-  if (a) {
-    e.preventDefault();
-    const page = a.getAttribute('data-link');
-    navigateTo(page);
-  }
-});
 
-// Load initial page from location.hash or default home
-function currentPageFromURL() {
-  const p = location.pathname.replace(/^\//,'').replace(/\.html$/,'');
-  // if served from index.html root, use hash or query param
-  const hash = location.hash.replace('#','');
-  if (hash && pages.includes(hash)) return hash;
-  const search = new URLSearchParams(location.search).get('page');
-  if (search && pages.includes(search)) return search;
-  return 'home';
+// LOGIQUE DE BASCULE DE LANGUE (AVEC DEUX BOUTONS STATIQUES)
+function updateLangButtonState(lang) {
+    // 1. Met à jour l'attribut lang de la balise <html>
+    document.documentElement.setAttribute('lang', lang);
+    
+    // 2. Met à jour l'état visuel des boutons
+    if (langFrToggle) {
+        langFrToggle.classList.toggle('active', lang === 'fr');
+    }
+    if (langEnToggle) {
+        langEnToggle.classList.toggle('active', lang === 'en');
+    }
 }
+
+function setLanguage(lang) {
+    currentLang = lang;
+    localStorage.setItem('lang', lang);
+    
+    // Met à jour l'état visuel immédiatement
+    updateLangButtonState(lang);
+
+    // Recharge la page actuelle pour appliquer la nouvelle langue
+    const currentPage = currentPageFromURL(); 
+    loadPage(currentPage, false);
+}
+
+// NOUVEAU: Écouteurs pour les boutons de langue
+document.addEventListener('click', (e) => {
+    const target = e.target.closest('.lang-button');
+    if (target) {
+        e.preventDefault();
+        const lang = target.getAttribute('data-lang');
+        if (lang && lang !== currentLang) {
+            setLanguage(lang);
+        }
+        return;
+    }
+});
+
 
 // Nav active state
 function setActiveNav(page) {
-  document.querySelectorAll('.nav-list a').forEach(a=>{
-    a.classList.toggle('active', a.getAttribute('data-link') === page);
+  navList.querySelectorAll('a').forEach(a => {
+    a.classList.remove('active');
+    if (a.getAttribute('data-link') === page) {
+      a.classList.add('active');
+    }
   });
 }
 
-// Page fetcher - Fade uniquement sur mainContent, pas sur header
+// Page fetcher - Utilise les dossiers pages_fr/ et pages_en/
 async function loadPage(page, push = false){
   if (!pages.includes(page)) page = 'home';
   loader.classList.add('active');
+  
+  // Utilise le dossier de langue
+  const langFolder = (currentLang === 'en') ? 'pages_en' : 'pages_fr';
+  
   try {
-    const res = await fetch(`./pages/${page}.html`);
+    const res = await fetch(`./${langFolder}/${page}.html`);
     if (!res.ok) throw new Error('Page non trouvée');
     const html = await res.text();
 
@@ -91,57 +132,75 @@ async function loadPage(page, push = false){
     main.style.opacity = 0;
     setTimeout(()=> {
       main.innerHTML = html;
-      main.focus();
+      
+      // FIX: Scroll au sommet
+      window.scrollTo(0, 0); 
+      
       main.style.opacity = 1;
       runPageScripts(page);
       setActiveNav(page);
+      
+      // Ferme le menu mobile si ouvert
+      if (navList.classList.contains('open')) {
+        mobileToggle.click(); // Simule le clic pour fermer
+      }
     }, 150);
 
+    // Historique/URL
     if (push) {
-      // push state with hash for shareable URL
       history.pushState({page}, '', `#${page}`);
+    } else {
+        // Au changement de langue, on s'assure que le pushState n'est pas appelé, mais que l'URL reste
+        history.replaceState({page}, '', `#${page}`);
     }
+
   } catch (err) {
-    main.innerHTML = `<section class="section"><h2 class="h2">Erreur</h2><p>Impossible de charger la page.</p></section>`;
-    console.error(err);
+    console.error("Erreur lors du chargement de la page:", err);
+    // En cas d'erreur de chargement (ex: 404), on redirige vers l'accueil.
+    if (page !== 'home') {
+        loadPage('home', true);
+    } else {
+        loader.classList.remove('active');
+    }
   } finally {
+    // S'assure que le loader disparaît après l'animation de fade-in
     setTimeout(()=>loader.classList.remove('active'), 250);
   }
 }
 
-function navigateTo(page) {
-  loadPage(page, true);
-  // FIX: Fermer le menu après la navigation sur mobile
-  if (window.innerWidth <= 900) { 
-      navList.classList.remove('open');
-      mobileToggle.classList.remove('open');
-      document.body.style.overflow = ''; // Rétablir le défilement
+// Écouteur de navigation (clic sur les liens)
+document.addEventListener('click', (e) => {
+  const target = e.target.closest('a[data-link]');
+  if (target) {
+    e.preventDefault();
+    const page = target.getAttribute('data-link');
+    loadPage(page, true); // Push dans l'historique
+    return;
   }
-}
-
-// Handle browser back/forward
-window.addEventListener('popstate', e => {
-  const state = e.state;
-  const page = (state && state.page) ? state.page : currentPageFromURL();
-  loadPage(page, false);
 });
 
-// Run small page-level scripts (e.g. animate skill bars)
+// Gérer le bouton retour du navigateur
+window.addEventListener('popstate', (e) => {
+  const page = currentPageFromURL();
+  loadPage(page, false); // Ne pas push dans l'historique
+});
+
+
+// Scripts spécifiques aux pages (animation des barres de compétences)
 function runPageScripts(page) {
   if (page === 'skills') {
-    // animate progress bars
-    document.querySelectorAll('.bar > i').forEach((el)=>{
-      const val = el.getAttribute('data-value') || '0';
-      el.style.width = '0%';
-      setTimeout(()=> {
-        el.style.transition = 'width 900ms cubic-bezier(.2,.9,.2,1)';
-        el.style.width = val + '%';
-      }, 120);
+    document.querySelectorAll('.skill .bar > i').forEach(bar => {
+      // Réinitialiser la barre si elle a déjà été affichée
+      bar.style.width = '0%';
+      // Déclenche l'animation
+      setTimeout(() => {
+          const value = bar.getAttribute('data-value');
+          bar.style.width = `${value}%`;
+      }, 50); 
     });
   }
   
-  if (page === 'engagements') {
-    // FIX: Ajout de l'écouteur d'événements pour les blocs d'engagement extensibles
+  // FIX: Ajout de l'écouteur d'événements pour les blocs d'engagement extensibles
     document.querySelectorAll('.eng-header.clickable').forEach(header => {
       // Pour s'assurer que l'élément entier réagit au clic
       header.addEventListener('click', e => {
@@ -162,8 +221,8 @@ function runPageScripts(page) {
         if (target) target.scrollIntoView({behavior:'smooth', block:'start'});
       });
     });
-  }
 }
+
 
 // Initialize
 document.addEventListener('DOMContentLoaded', ()=>{
@@ -179,6 +238,10 @@ document.addEventListener('DOMContentLoaded', ()=>{
     // Si pas de préférence, utiliser la préférence système
     setDarkTheme(prefersDark);
   }
+  
+  // Initialisation de la langue au chargement (pour que le bouton actif soit visible)
+  updateLangButtonState(currentLang);
+
 
   const initial = currentPageFromURL();
   loadPage(initial, false);
