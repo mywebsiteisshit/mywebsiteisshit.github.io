@@ -719,6 +719,11 @@ body.theme-dark .timeline-item.timeline-bullet::before {
     box-shadow: 0 0 0 3px var(--bg);
 }
 
+/* Cache le conteneur du bouton CV du haut sur desktop */
+.cv-top-btn-mobile {
+    display: none; 
+}
+
 
 /* Responsive */
 @media (max-width:900px){
@@ -834,8 +839,38 @@ body.theme-dark .timeline-item.timeline-bullet::before {
     animation: none;
     font-weight: 600;
   }
+  
+  /* ✅ CORRECTION: Style pour l'image pleine largeur sur mobile (Cible toutes les images dans .hero) */
+  .hero img, .hero-right img {
+      /* Utilise le calcul de débordement du .hero pour la pleine largeur */
+      width: calc(100% + 36px); 
+      margin-left: -18px; 
+      margin-right: -18px; 
+      max-width: none; 
+      height: auto; 
+      display: block;
+      border-radius: 0;
+      /* Force l'image à se positionner correctement dans le layout flex */
+      order: -1; 
+      margin-bottom: 18px;
+  }
+  
+  /* NOUVEAU: Afficher le bouton CV du haut et le mettre en pleine largeur */
+  .cv-top-btn-mobile {
+      display: block; 
+      margin-bottom: 18px; 
+      padding: 0 18px; 
+  }
+  .cv-top-btn-mobile .btn {
+      width: 100%;
+      justify-content: center;
+  }
 
+  /* Cache le bloc de téléchargement CV dans l'aside sur mobile */
+  aside .download-cv-box {
+      display: none;
+  }
+  
   /* Styles existants pour les autres éléments */
-  /* Suppression de .header-inner{gap:12px} qui créait un problème d'espacement */
   .footer-inner{flex-direction:column;align-items:flex-start}
 }
