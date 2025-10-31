@@ -82,8 +82,7 @@ body{
 .container{
   max-width:var(--container-width);
   margin:0 auto;
-  /* CORRECTION SAFARI: Utiliser 'min' ou 'max' pour garantir que le padding ne s'ajoute pas à la largeur totale sur iOS */
-  padding:0 min(28px, 5vw); 
+  padding:0 28px;
 }
 
 /* Header - STABLE - FORCE GPU LAYER */
@@ -105,8 +104,7 @@ body{
 .header-inner{
   max-width:var(--container-width);
   margin:0 auto;
-  /* CORRECTION SAFARI: Réutilise le padding du conteneur */
-  padding:0 min(28px, 5vw);
+  padding:0 28px;
   height:100%;
   display:flex;
   align-items:center;
@@ -389,7 +387,7 @@ body.theme-dark .timeline-item.timeline-bullet::before {
 
 /* Main content */
 .main-content{
-  /* FIX: Retire le padding horizontal fixe pour mobile pour éviter le décalage sur iOS. */
+  /* Retire le padding horizontal fixe pour mobile pour éviter le décalage sur iOS. */
   max-width: var(--container-width);
   margin: 0 auto;
   padding: 90px 28px 80px 28px; /* Padding standard Desktop */
@@ -619,7 +617,16 @@ textarea{min-height:140px;resize:vertical}
 
 /* Footer */
 .site-footer{border-top:1px solid rgba(15,23,42,0.04);padding:22px 0;background:transparent}
-.footer-inner{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.footer-inner{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:12px;
+    /* FIX: Assure que le contenu du footer est contenu par le .container */
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0 28px; /* Padding standard desktop */
+}
 .socials{display:flex;gap:12px}
 
 /* REDUCTION ET UNIFORMISATION DE LA TAILLE DES LOGOS */
@@ -643,6 +650,76 @@ textarea{min-height:140px;resize:vertical}
 a{color:var(--accent)}
 small{color:var(--muted)}
 
+/* --- STYLES POUR LES BLOCS DE COMPÉTENCES (SKILL TAGS) --- */
+.skill-tag {
+    /* Style de base de la box */
+    display: inline-block;
+    padding: 4px 8px;
+    font-size: 13px;
+    font-weight: 500;
+    border-radius: 6px;
+    margin-bottom: 4px; /* Pour l'alignement flex-wrap */
+    
+    /* Fond BLANC (ou sombre en mode dark) UNI */
+    background: var(--bg); 
+    color: var(--text);
+    border: 1px solid rgba(15, 23, 42, 0.1); 
+    
+    /* Préparation pour l'animation RGB */
+    position: relative;
+    z-index: 1; /* Assure que le texte est au-dessus */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+    /* Setup pour le contour RGB (par défaut invisible) */
+    background-image: linear-gradient(var(--bg), var(--bg)), /* Fond BLANC */
+                      linear-gradient(90deg, transparent, transparent); /* Contour transparent */
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+    background-size: 100% 100%, 400% 100%; /* Taille nécessaire pour l'animation */
+    border-width: 1px;
+}
+
+/* RGB Contour au survol */
+.skill-tag:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.1);
+
+    /* Activation du contour RGB */
+    border-color: transparent; /* Désactive la bordure solide */
+    background-image: linear-gradient(var(--bg), var(--bg)), 
+                      linear-gradient(90deg, 
+                        #ff0080, #ff4d00, #ffaa00, #00ff88, #00d4ff, #0088ff, #8800ff, #ff0080 
+                      );
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+    animation: btn-gradient 6s linear infinite; /* Réutilise l'animation de défilement RGB */
+}
+/* --- FIN STYLES BLOCS DE COMPÉTENCES --- */
+
+/* --- STYLES DE LA TIMELINE CV (Points d'étape) --- */
+.timeline-item {
+    position: relative;
+}
+
+.timeline-item.timeline-bullet::before {
+    content: '';
+    position: absolute;
+    left: -22px; 
+    top: 8px; 
+    width: 8px;
+    height: 8px;
+    background: var(--text); /* Couleur du point */
+    border-radius: 50%;
+    z-index: 2; /* Assure que le point est au-dessus de la ligne */
+    box-shadow: 0 0 0 3px var(--bg); /* Un anneau blanc autour pour le détacher */
+}
+
+body.theme-dark .timeline-item.timeline-bullet::before {
+    background: var(--text);
+    box-shadow: 0 0 0 3px var(--bg);
+}
+
+
 /* Responsive */
 @media (max-width:900px){
   /* Masque le menu par défaut sur mobile (géré par JS au clic) */
@@ -651,32 +728,65 @@ small{color:var(--muted)}
   /* Le bouton de bascule mobile apparaît */
   .mobile-toggle{display:block}
   
-  /* FIX: HOME / Décalage et Marge */
+  /* FIX MAJEUR: Accueil / Décalage et Marge */
   .main-content {
       /* Réduit le padding horizontal standard à une valeur mobile (18px) */
       padding: 90px 18px 80px 18px; 
   }
   
-  /* Le .container à l'intérieur de .main-content doit aussi avoir un padding réduit ou nul */
+  /* Annule le padding du conteneur intérieur pour laisser .main-content gérer l'espacement */
   .container {
-      padding: 0 18px; /* Assure que le contenu ne déborde pas */
+      padding: 0; 
   }
-
+  
+  /* Assure que l'en-tête utilise le même espacement pour correspondre au contenu */
+  .header-inner {
+      padding: 0 18px;
+  }
+  
   .hero{
     flex-direction:column;
     align-items:flex-start;
-    padding: 0; /* Retire le padding intérieur du Hero pour utiliser celui de .main-content */
+    padding: 18px; /* Applique le padding manquant ici */
+  }
+  
+  /* FIX: Pied de page Mobile (Socials et Texte) */
+  .site-footer .footer-inner {
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 0 18px; /* Applique le padding interne du conteneur */
+      /* La ligne du milieu a été supprimée dans index.html, donc on aligne le copyright */
+      justify-content: space-between;
+  }
+  .site-footer .socials {
+      margin-top: 8px;
   }
   
   /* FIX: CV / Grille - Passe en colonne unique (1fr) sur mobile */
-  /* Cible la grille du CV de manière plus explicite si nécessaire */
   .main-content .grid {
     grid-template-columns: 1fr !important; /* Force la colonne unique */
+    padding: 0 18px; 
+    width: auto; 
+  }
+
+  /* NOUVEAU FIX: Empilement des boutons CTA sur mobile */
+  .cta-row.mobile-stack {
+      flex-direction: column; /* Force les éléments à s'empiler */
+      width: 100%;
   }
   
-  /* S'assurer que le header-inner utilise le même padding que le main-content */
-  .header-inner {
-      padding: 0 18px;
+  /* CORRECTION: Centrage du texte des boutons empilés */
+  .cta-row.mobile-stack .btn {
+      width: 100%; 
+      margin-bottom: 8px; 
+      /* NOUVEAU STYLE: Centre le contenu du flex (texte et icône) */
+      justify-content: center; 
+  }
+
+  .cta-row.mobile-stack .mobile-full-width {
+      /* Le bouton CV prend la pleine largeur et se place naturellement en dessous */
+      width: 100%;
+      margin-top: 0; 
   }
 
   /* FIX: Styles pour le menu mobile OUVERT */
