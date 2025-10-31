@@ -352,7 +352,6 @@ body.theme-dark .lang-en.active {
     content: '';
     position: absolute;
     left: -22px; 
-    /* AJUSTEMENT: Baisse la position des points */
     top: 8px; 
     width: 8px;
     height: 8px;
@@ -388,7 +387,7 @@ body.theme-dark .timeline-item.timeline-bullet::before {
 
 /* Main content */
 .main-content{
-  /* FIX: Ajoute la largeur max, le centrage et le padding horizontal */
+  /* FIX: Définir le padding à 0 sur le corps du contenu pour corriger la marge à gauche */
   max-width: var(--container-width);
   margin: 0 auto;
   padding: 90px 28px 80px 28px; /* Padding vertical (90/80) et padding horizontal (28) */
@@ -650,14 +649,21 @@ small{color:var(--muted)}
   /* Le bouton de bascule mobile apparaît */
   .mobile-toggle{display:block}
   
-  /* FIX: Décalage de la page d'accueil (Hero) */
+  /* FIX MAJEUR: Accueil / Décalage */
+  .main-content {
+      /* Annule le padding horizontal du conteneur principal sur mobile, */
+      /* mais laisse le padding vertical. Le padding est géré par .container/.header-inner */
+      padding: 90px 18px 80px 18px; 
+  }
+  
   .hero{
     flex-direction:column;
     align-items:flex-start;
-    padding: 18px; /* Réduit le padding du hero sur mobile */
+    padding: 0; /* Retire le padding intérieur du Hero pour utiliser celui de .main-content */
   }
   
   /* FIX: Grille CV - Passe en colonne unique (1fr) sur mobile */
+  /* Cette règle est déjà correcte pour faire passer en colonne unique */
   .main-content .grid {
     grid-template-columns: 1fr !important; /* Force la colonne unique */
   }
