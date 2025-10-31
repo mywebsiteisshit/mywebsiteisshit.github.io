@@ -140,11 +140,15 @@ body{
   padding:8px 14px;
   border-radius:8px;
   white-space: nowrap;
-  /* Fix pour éviter le mouvement : isole l'élément pour le rendu GPU */
+  
+  /* FIX ANTI-SAUT FONT-WEIGHT: Pré-charge les glyphes épais en white-space */
+  font-feature-settings: "liga" 0;
+  font-variation-settings: 'wght' 400;
+  
   display: inline-block; 
   position: relative; 
-  will-change: background-position; /* Optimisation pour l'animation */
-  transform: translateZ(0); /* Forcer le rendu GPU */
+  will-change: transform, font-weight; 
+  transform: translateZ(0); 
   backface-visibility: hidden; 
 }
 
@@ -166,7 +170,10 @@ body{
   -webkit-text-fill-color: transparent;
   animation: rgb-cycle 3s linear infinite;
   color: transparent; /* S'assure que la couleur de base n'interfère pas */
-  font-weight: 400; /* Garde le poids normal au survol */
+  
+  /* FIX: S'assure que le font-weight 400 (normal) est utilisé pour le survol non actif */
+  font-weight: 400; 
+  font-variation-settings: 'wght' 400; /* Assure la stabilité */
 }
 
 /* Page active - RGB DÉFILANT, SANS FOND (CONSERVÉ) */
@@ -186,7 +193,11 @@ body{
   background-clip: text;
   -webkit-text-fill-color: transparent;
   animation: rgb-cycle 3s linear infinite;
+  
+  /* FIX: Utilise le gras */
   font-weight: 600; /* Le lien actif est en gras */
+  font-variation-settings: 'wght' 600; /* Assure le gras */
+  
   background-color: transparent; 
   color: transparent; /* Assure que le texte est bien transparent pour voir le gradient */
 }
@@ -286,7 +297,7 @@ body.theme-dark .lang-en.active {
 /* --- FIN DES STYLES DE LANGUE --- */
 
 
-/* --- NOUVEAUX STYLES POUR LES BLOCS DE COMPÉTENCES (SKILL TAGS) --- */
+/* --- STYLES POUR LES BLOCS DE COMPÉTENCES (SKILL TAGS) --- */
 .skill-tag {
     /* Style de base de la box */
     display: inline-block;
@@ -296,7 +307,7 @@ body.theme-dark .lang-en.active {
     border-radius: 6px;
     margin-bottom: 4px; /* Pour l'alignement flex-wrap */
     
-    /* CORRECTION: Fond BLANC (ou sombre en mode dark) UNI */
+    /* Fond BLANC (ou sombre en mode dark) UNI */
     background: var(--bg); 
     color: var(--text);
     border: 1px solid rgba(15, 23, 42, 0.1); 
@@ -331,6 +342,30 @@ body.theme-dark .lang-en.active {
     animation: btn-gradient 6s linear infinite; /* Réutilise l'animation de défilement RGB */
 }
 /* --- FIN STYLES BLOCS DE COMPÉTENCES --- */
+
+/* --- STYLES DE LA TIMELINE CV (Points d'étape) --- */
+.timeline-item {
+    position: relative;
+}
+
+.timeline-item.timeline-bullet::before {
+    content: '';
+    position: absolute;
+    left: -22px; 
+    /* AJUSTEMENT: Baisse la position des points */
+    top: 8px; 
+    width: 8px;
+    height: 8px;
+    background: var(--text); /* Couleur du point */
+    border-radius: 50%;
+    z-index: 2; /* Assure que le point est au-dessus de la ligne */
+    box-shadow: 0 0 0 3px var(--bg); /* Un anneau blanc autour pour le détacher */
+}
+
+body.theme-dark .timeline-item.timeline-bullet::before {
+    background: var(--text);
+    box-shadow: 0 0 0 3px var(--bg);
+}
 
 
 /* FIX: Assure une taille fixe pour l'icône pour éviter le saut (reflow) */
@@ -614,6 +649,18 @@ small{color:var(--muted)}
 
   /* Le bouton de bascule mobile apparaît */
   .mobile-toggle{display:block}
+  
+  /* FIX: Décalage de la page d'accueil (Hero) */
+  .hero{
+    flex-direction:column;
+    align-items:flex-start;
+    padding: 18px; /* Réduit le padding du hero sur mobile */
+  }
+  
+  /* FIX: Grille CV - Passe en colonne unique (1fr) sur mobile */
+  .main-content .grid {
+    grid-template-columns: 1fr !important; /* Force la colonne unique */
+  }
 
   /* FIX: Styles pour le menu mobile OUVERT */
   .nav-list.open {
@@ -662,7 +709,6 @@ small{color:var(--muted)}
   }
 
   /* Styles existants pour les autres éléments */
-  .hero{flex-direction:column;align-items:flex-start}
   /* Suppression de .header-inner{gap:12px} qui créait un problème d'espacement */
   .footer-inner{flex-direction:column;align-items:flex-start}
 }

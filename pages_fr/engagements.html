@@ -142,23 +142,39 @@
 <style>
 .eng-container {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column; /* FIX: Force la disposition en colonne unique */
   justify-content: center;
-  gap: 20px;
+  gap: 12px; /* Espacement vertical entre les blocs */
   margin-top: 16px;
-  align-items: flex-start; /* FIX: Empêche les cartes non ouvertes de s'étirer verticalement */
+  align-items: center; /* Centre le conteneur de blocs sur la page */
 }
 
 .engagement {
-  width: 300px;
+  width: 100%; 
+  max-width: 700px; /* Limite la largeur pour une meilleure lisibilité */
+    
+  /* FIX: Réduction de la hauteur minimale */
+  min-height: 90px; 
   background: #fff;
   border: 1px solid #ddd;
   border-radius: 12px;
-  /* La classe .card gère le padding */
   overflow: hidden;
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
   cursor: pointer;
+  
+  display: flex;
+  flex-direction: column;
+  /* FIX: Centre verticalement le contenu (le header) quand le bloc est fermé */
+  justify-content: center;
 }
+
+/* ÉTAT OUVERT: Enlève le centrage vertical pour que le contenu s'étende du haut vers le bas */
+.engagement.open {
+    height: auto; 
+    min-height: 90px; /* Conserve la nouvelle hauteur minimale */
+    justify-content: flex-start; 
+}
+
 
 .engagement:hover {
   transform: translateY(-3px);
@@ -169,16 +185,13 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  /* Permet au toggle-icon de se positionner à la fin */
   justify-content: space-between;
 }
 
-/* Le padding est maintenant géré par .card, on retire le padding local */
 .card.engagement {
     padding: 18px 20px; 
 }
 
-/* Style de l'icône de bascule */
 .toggle-icon {
     font-size: 20px;
     font-weight: 700;
@@ -203,15 +216,19 @@
 .eng-details {
   max-height: 0;
   overflow: hidden;
-  /* Utilise la valeur max-height pour l'animation */
   transition: max-height 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), padding-top 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   padding-top: 0; 
   padding-bottom: 0;
+  
+  flex-shrink: 0;
+  width: 100%;
 }
 
-/* État ouvert: grand max-height + padding */
+/* État ouvert: grand max-height + padding (Réactive l'ouverture) */
 .eng-details.open {
-  max-height: 500px; /* Grande valeur pour animer correctement */
+  max-height: 500px; 
   padding-top: 10px; 
 }
+
+/* Le media query n'est plus nécessaire car le style principal gère maintenant la colonne unique */
 </style>

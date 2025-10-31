@@ -133,7 +133,7 @@ async function loadPage(page, push = false){
     setTimeout(()=> {
       main.innerHTML = html;
       
-      // FIX: Scroll au sommet
+      // FIX: Scroll au sommet (nécessaire pour éviter les sauts)
       window.scrollTo(0, 0); 
       
       main.style.opacity = 1;
@@ -200,7 +200,8 @@ function runPageScripts(page) {
     });
   }
   
-  // FIX: Ajout de l'écouteur d'événements pour les blocs d'engagement extensibles
+  if (page === 'engagements') {
+    // FIX: Ajout de l'écouteur d'événements pour les blocs d'engagement extensibles
     document.querySelectorAll('.eng-header.clickable').forEach(header => {
       // Pour s'assurer que l'élément entier réagit au clic
       header.addEventListener('click', e => {
@@ -221,6 +222,7 @@ function runPageScripts(page) {
         if (target) target.scrollIntoView({behavior:'smooth', block:'start'});
       });
     });
+  }
 }
 
 
