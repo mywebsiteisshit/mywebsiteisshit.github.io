@@ -4,6 +4,7 @@
  - Ajoute animations simples (fade-in), mobile menu toggle, et animation de barres de compétences
  - Ajout de la logique du mode sombre (dark mode)
  - AJOUT DE LA LOGIQUE MULTILINGUE (FR/EN)
+ - AJOUT DE LA TRADUCTION DU MENU NAVIGATION
 */
 
 const main = document.getElementById('mainContent');
@@ -20,6 +21,38 @@ const pages = ['home','about','resume','projects','skills','engagements','testim
 
 // NOUVEAU: Initialise la langue depuis localStorage
 let currentLang = localStorage.getItem('lang') || 'fr'; 
+
+// --- DICTIONNAIRE DE TRADUCTION DU MENU ---
+const translations = {
+    fr: {
+        nav_home: "Accueil",
+        nav_about: "Profil",
+        nav_resume: "CV",
+        nav_projects: "Projets",
+        nav_skills: "Compétences",
+        nav_engagements: "Engagements",
+        nav_contact: "Contact"
+    },
+    en: {
+        nav_home: "Home",
+        nav_about: "Profile",
+        nav_resume: "Resume",
+        nav_projects: "Projects",
+        nav_skills: "Skills",
+        nav_engagements: "Involvement",
+        nav_contact: "Contact"
+    }
+};
+
+// Fonction qui met à jour le texte du menu statique (header)
+function updateStaticText(lang) {
+    document.querySelectorAll('[data-i18n]').forEach(element => {
+        const key = element.getAttribute('data-i18n');
+        if (translations[lang] && translations[lang][key]) {
+            element.textContent = translations[lang][key];
+        }
+    });
+}
 
 
 // Helper pour obtenir la page courante
@@ -85,6 +118,9 @@ function setLanguage(lang) {
     
     // Met à jour l'état visuel immédiatement
     updateLangButtonState(lang);
+    
+    // Met à jour les textes du menu (Header)
+    updateStaticText(lang);
 
     // Recharge la page actuelle pour appliquer la nouvelle langue
     const currentPage = currentPageFromURL(); 
@@ -203,14 +239,14 @@ function runPageScripts(page) {
   if (page === 'engagements') {
     // FIX: Ajout de l'écouteur d'événements pour les blocs d'engagement extensibles
     document.querySelectorAll('.eng-header.clickable').forEach(header => {
-      // Pour s'assurer que l'élément entier réagit au clic
       header.addEventListener('click', e => {
         const details = header.nextElementSibling;
+        const card = header.closest('.card.engagement'); // On récupère la carte parente
         
-        // Bascule de la classe 'open' sur les détails
+        // Bascule de la classe 'open' sur les détails, le header ET la carte (pour le RGB)
         details.classList.toggle('open');
-        // Bascule de la classe 'open' sur le header pour l'icône
         header.classList.toggle('open');
+        if(card) card.classList.toggle('open'); 
       });
     });
     
@@ -243,7 +279,9 @@ document.addEventListener('DOMContentLoaded', ()=>{
   
   // Initialisation de la langue au chargement (pour que le bouton actif soit visible)
   updateLangButtonState(currentLang);
-
+  
+  // Initialisation du texte du menu
+  updateStaticText(currentLang);
 
   const initial = currentPageFromURL();
   loadPage(initial, false);

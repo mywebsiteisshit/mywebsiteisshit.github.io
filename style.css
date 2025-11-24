@@ -471,6 +471,17 @@ h3, .h3{
   animation: none;
 }
 
+/* === AJOUT UNIQUE : Styles pour les Engagements (RGB au hover ou si open) === */
+.card.engagement:hover,
+.card.engagement.open {
+    border: 2px solid transparent;
+    background: linear-gradient(var(--bg), var(--bg)) padding-box,
+                linear-gradient(90deg, #ff0080, #ff4d00, #ffaa00, #00ff88, #00d4ff, #0088ff, #8800ff, #ff0080) border-box;
+    background-size: 100% 100%, 400% 100%;
+    animation: btn-gradient 6s linear infinite;
+    transform: translateY(-4px);
+}
+
 .muted{color:var(--muted); font-size:14px}
 
 /* Home hero - Fond transparent, aucune ombre */
@@ -485,6 +496,74 @@ h3, .h3{
   box-shadow: none;
   border: none;
 }
+
+/* --- CORRECTION STYLES HERO IMAGE DESKTOP (Fixe la coupe) --- */
+/* --- HERO IMAGE DESKTOP (RECTANGLE PORTRAIT) --- */
+
+.hero-right {
+  /* Définition du cadre Rectangle Vertical */
+  width: 280px; 
+  height: 380px; /* Plus haut que large pour l'effet portrait */
+  
+  flex-shrink: 0;
+  border-radius: 24px; /* Coins arrondis sur le cadre */
+  box-shadow: var(--shadow);
+  overflow: hidden; /* Force l'image à respecter les coins arrondis */
+  position: relative;
+  
+  /* Centrage optionnel si jamais l'image ne charge pas */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: var(--card); 
+}
+
+.hero-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* L'image remplit tout le rectangle sans déformation (elle est rognée si besoin) */
+  display: block;
+  /* On retire les anciens styles de positionnement absolu/transform */
+  position: static; 
+  transform: none;
+  border-radius: 0; /* C'est le conteneur .hero-right qui gère l'arrondi */
+  box-shadow: none;
+}
+
+/* --- RESPONSIVE MOBILE --- */
+
+@media (max-width:900px){
+  /* ... (tes autres règles mobile) ... */
+
+  .hero-right {
+      /* Sur mobile, on retire le cadre rigide du desktop */
+      width: 100%;
+      height: auto; 
+      order: -1; 
+      margin-bottom: 24px;
+      
+      /* On désactive le style "cadre" du desktop pour laisser l'image libre */
+      box-shadow: none;
+      border-radius: 0;
+      background: transparent;
+      overflow: visible;
+  }
+  
+  .hero-image {
+      /* L'image redevient un élément simple centré */
+      width: 70%; /* Taille agréable sur mobile */
+      max-width: 280px; 
+      height: auto; /* Hauteur automatique pour garder le ratio d'origine de la photo */
+      margin: 0 auto; 
+      display: block;
+      
+      /* On remet l'arrondi et l'ombre directement sur l'image pour le mobile */
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+  }
+}
+/* --- FIN CORRECTION STYLES HERO IMAGE DESKTOP --- */
+
 
 .hero-left{flex:1;min-width:0}
 .hero-title{
@@ -650,75 +729,6 @@ textarea{min-height:140px;resize:vertical}
 a{color:var(--accent)}
 small{color:var(--muted)}
 
-/* --- STYLES POUR LES BLOCS DE COMPÉTENCES (SKILL TAGS) --- */
-.skill-tag {
-    /* Style de base de la box */
-    display: inline-block;
-    padding: 4px 8px;
-    font-size: 13px;
-    font-weight: 500;
-    border-radius: 6px;
-    margin-bottom: 4px; /* Pour l'alignement flex-wrap */
-    
-    /* Fond BLANC (ou sombre en mode dark) UNI */
-    background: var(--bg); 
-    color: var(--text);
-    border: 1px solid rgba(15, 23, 42, 0.1); 
-    
-    /* Préparation pour l'animation RGB */
-    position: relative;
-    z-index: 1; /* Assure que le texte est au-dessus */
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-
-    /* Setup pour le contour RGB (par défaut invisible) */
-    background-image: linear-gradient(var(--bg), var(--bg)), /* Fond BLANC */
-                      linear-gradient(90deg, transparent, transparent); /* Contour transparent */
-    background-origin: border-box;
-    background-clip: padding-box, border-box;
-    background-size: 100% 100%, 400% 100%; /* Taille nécessaire pour l'animation */
-    border-width: 1px;
-}
-
-/* RGB Contour au survol */
-.skill-tag:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.1);
-
-    /* Activation du contour RGB */
-    border-color: transparent; /* Désactive la bordure solide */
-    background-image: linear-gradient(var(--bg), var(--bg)), 
-                      linear-gradient(90deg, 
-                        #ff0080, #ff4d00, #ffaa00, #00ff88, #00d4ff, #0088ff, #8800ff, #ff0080 
-                      );
-    background-origin: border-box;
-    background-clip: padding-box, border-box;
-    animation: btn-gradient 6s linear infinite; /* Réutilise l'animation de défilement RGB */
-}
-/* --- FIN STYLES BLOCS DE COMPÉTENCES --- */
-
-/* --- STYLES DE LA TIMELINE CV (Points d'étape) --- */
-.timeline-item {
-    position: relative;
-}
-
-.timeline-item.timeline-bullet::before {
-    content: '';
-    position: absolute;
-    left: -22px; 
-    top: 8px; 
-    width: 8px;
-    height: 8px;
-    background: var(--text); /* Couleur du point */
-    border-radius: 50%;
-    z-index: 2; /* Assure que le point est au-dessus de la ligne */
-    box-shadow: 0 0 0 3px var(--bg); /* Un anneau blanc autour pour le détacher */
-}
-
-body.theme-dark .timeline-item.timeline-bullet::before {
-    background: var(--text);
-    box-shadow: 0 0 0 3px var(--bg);
-}
-
 /* Cache le conteneur du bouton CV du haut sur desktop */
 .cv-top-btn-mobile {
     display: none; 
@@ -754,6 +764,27 @@ body.theme-dark .timeline-item.timeline-bullet::before {
     align-items:flex-start;
     padding: 18px; /* Applique le padding manquant ici */
   }
+  
+  /* ✅ CORRECTION: Style pour l'image sur mobile */
+  .hero-right {
+      /* Sur mobile, le conteneur image prend la pleine largeur et se place au-dessus */
+      width: 100%;
+      order: -1; 
+      margin-bottom: 18px;
+      height: auto; 
+      justify-content: center; 
+  }
+  
+  .hero-image {
+      /* L'image reprend une taille normale pour ne pas déborder */
+      width: 80%; 
+      max-width: 240px; 
+      height: auto;
+      transform: none; /* Annule le décalage translateX/translateY du desktop */
+      margin: 0 auto; 
+      /* Conserve la border-radius et l'ombre */
+  }
+  /* --- FIN CORRECTION MOBILE IMAGE --- */
   
   /* FIX: Pied de page Mobile (Socials et Texte) */
   .site-footer .footer-inner {
@@ -824,35 +855,23 @@ body.theme-dark .timeline-item.timeline-bullet::before {
     font-weight: 500;
   }
   
-  /* Retirer l'effet RGB et le fond de la nav sur mobile */
+  /* --- DANS LA SECTION MOBILE @media (max-width:900px) --- */
+  
+  /* CORRECTION : On force le fond transparent au "survol" sur mobile 
+     pour éviter que la couleur reste collée après un clic (Sticky Hover) */
   .nav-list a:hover {
-    background: var(--card);
-    -webkit-text-fill-color: var(--text);
+    background: transparent !important; /* Force la transparence */
     color: var(--text);
     animation: none;
   }
   
+  /* SEUL l'élément actif (géré par le JS) doit avoir le fond */
   .nav-list a.active {
-    background: var(--card); /* Fond pour l'élément actif */
-    -webkit-text-fill-color: var(--text);
+    background: var(--card); /* Fond visible uniquement si actif */
+    -webkit-text-fill-color: var(--text); /* Assure la couleur du texte */
     color: var(--text);
     animation: none;
     font-weight: 600;
-  }
-  
-  /* ✅ CORRECTION: Style pour l'image pleine largeur sur mobile (Cible toutes les images dans .hero) */
-  .hero img, .hero-right img {
-      /* Utilise le calcul de débordement du .hero pour la pleine largeur */
-      width: calc(100% + 36px); 
-      margin-left: -18px; 
-      margin-right: -18px; 
-      max-width: none; 
-      height: auto; 
-      display: block;
-      border-radius: 0;
-      /* Force l'image à se positionner correctement dans le layout flex */
-      order: -1; 
-      margin-bottom: 18px;
   }
   
   /* NOUVEAU: Afficher le bouton CV du haut et le mettre en pleine largeur */
@@ -873,4 +892,38 @@ body.theme-dark .timeline-item.timeline-bullet::before {
   
   /* Styles existants pour les autres éléments */
   .footer-inner{flex-direction:column;align-items:flex-start}
+}
+
+/* --- CORRECTION ANIMATION RGB PERMANENTE --- */
+
+/* 1. On définit une animation explicite qui déplace uniquement la 2ème image (le dégradé) */
+@keyframes rgb-scroll-loop {
+  0% {
+    background-position: 0% 50%, 0% 50%; /* Image 1 (fixe), Image 2 (début) */
+  }
+  100% {
+    background-position: 0% 50%, 200% 50%; /* Image 1 (fixe), Image 2 (fin de boucle) */
+  }
+}
+
+/* 2. La classe qui applique le style */
+.rgb-highlight {
+    border: 2px solid transparent !important;
+
+    /* Définition explicite des deux couches : Fond couleur page (var(--bg)) + Gradient RGB */
+    background-image: linear-gradient(var(--bg), var(--bg)), 
+                      linear-gradient(90deg, #ff0080, #ff4d00, #ffaa00, #00ff88, #00d4ff, #0088ff, #8800ff, #ff0080) !important;
+
+    /* IMPORTANT : Le gradient (2ème valeur) doit être plus grand (200%) pour pouvoir défiler */
+    background-size: 100% 100%, 200% 100% !important;
+
+    /* Configuration des masques : le fond s'arrête au padding, le gradient va jusqu'à la bordure */
+    background-clip: padding-box, border-box !important;
+    background-origin: padding-box, border-box !important;
+
+    /* Lancement de l'animation fluide et infinie */
+    animation: rgb-scroll-loop 3s linear infinite !important;
+    
+    /* Petit effet de soulèvement permanent pour accentuer l'importance */
+    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.15) !important;
 }

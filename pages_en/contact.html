@@ -1,27 +1,29 @@
 <section class="section" aria-labelledby="contactTitle">
-  <h2 id="contactTitle" class="h2">Contact</h2>
+  <h2 id="contactTitle" class="h2">Contact Me</h2>
 
-  <div style="display:flex;gap:18px;flex-wrap:wrap">
-    <div style="flex:1;min-width:300px">
-      <form class="contact-form" onsubmit="event.preventDefault(); alert('Formulaire démo : copie les valeurs puis envoie depuis ton mail');">
-        <input class="input" type="text" name="name" placeholder="Ton nom" required />
-        <input class="input" type="email" name="email" placeholder="Ton email" required />
-        <input class="input" type="text" name="subject" placeholder="Objet" />
-        <textarea name="message" placeholder="Ton message" required></textarea>
-        <div style="display:flex;gap:8px">
-          <button class="btn btn-primary" type="submit">Envoyer</button>
-          <a class="btn btn-ghost" href="mailto:ton.email@example.com">Me contacter par mail</a>
-        </div>
-      </form>
+  <div style="max-width: 600px; margin: 0 auto;">
+    
+    <div class="card" style="text-align: center; padding: 30px;">
+      <p class="muted" style="font-size: 16px; margin-bottom: 24px;">
+        I am always open to new opportunities or simply to connect.<br>
+        Feel free to write to me, I usually reply within 24 hours.
+      </p>
+
+      <a class="btn btn-primary" href="mailto:arthur.doradoux@etu.emse.fr" style="width: 100%; justify-content: center; margin-bottom: 12px; font-size: 16px;">
+        📧 arthur.doradoux@etu.emse.fr
+      </a>
+
+      <a class="btn btn-ghost" href="https://linkedin.com/in/arthur-doradoux/" target="_blank" style="width: 100%; justify-content: center; margin-bottom: 24px;">
+        Join me on LinkedIn
+      </a>
+
+      <hr style="border: 0; border-top: 1px solid rgba(142, 142, 147, 0.2); margin: 24px 0;">
+
+      <h3 class="h2" style="margin-bottom: 18px;">Useful Documents</h3>
+      <a class="btn btn-ghost" href="assets/CV_Arthur_DORADOUX.pdf" download style="width: 100%; justify-content: center;">
+        📄 Download my Resume (PDF)
+      </a>
     </div>
 
-    <div style="flex:1;min-width:260px">
-      <div class="card">
-        <h3 class="h2">Réseaux</h3>
-        <p class="muted">LinkedIn • GitHub • Twitter</p>
-        <h3 class="h2" style="margin-top:12px">Télécharger mon CV</h3>
-        <a class="btn btn-ghost" href="assets/CV_Arthur_DORADOUX.pdf" download>Télécharger (PDF)</a>
-      </div>
-    </div>
   </div>
 </section>
