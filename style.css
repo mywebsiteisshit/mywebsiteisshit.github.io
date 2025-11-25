@@ -1,36 +1,35 @@
-/* style.css - Apple-like, minimal, responsive avec éléments RGB spectaculaires */
-/* Utilise la font Inter importée dans index.html */
+/* style.css */
 
 :root{
   --bg: #ffffff;
   --muted: #6b7280;
   --text: #0f172a;
-  --accent: #8e8e93; /* Gris neutre Apple-like */
-  --card: rgba(255, 255, 255, 0.7); /* Plus transparent pour l'effet verre */
-  --glass: rgba(255,255,255,0.8); /* Moins opaque pour le fond des boutons, etc. */
-  --shadow: 0 10px 30px rgba(15,23,42,0.08); /* Ombre plus douce et diffuse */
+  --accent: #8e8e93; 
+  --card: rgba(255, 255, 255, 0.7); 
+  --glass: rgba(255,255,255,0.8); 
+  --shadow: 0 10px 30px rgba(15,23,42,0.08); 
   --radius: 14px;
   --container-width: 1100px;
 }
 
-/* Mode Sombre : Les couleurs sombres sont appliquées ici */
+/* Mode Sombre */
 body.theme-dark {
-  --bg: #1e1e1e; /* Fond sombre */
-  --text: #f0f0f0; /* Texte clair */
-  --muted: #a0a0a0; /* Texte secondaire gris clair */
-  --accent: #bbbbbb; /* Accent plus clair */
-  --card: rgba(44, 44, 44, 0.7); /* Fond de carte transparent pour l'effet verre sombre */
-  --glass: rgba(44,44,44,0.6); /* Effet de verre sombre */
-  --shadow: 0 10px 30px rgba(0,0,0,0.5); /* Ombre plus visible sur fond sombre */
+  --bg: #1e1e1e;
+  --text: #f0f0f0; 
+  --muted: #a0a0a0;
+  --accent: #bbbbbb;
+  --card: rgba(44, 44, 44, 0.7);
+  --glass: rgba(44,44,44,0.6);
+  --shadow: 0 10px 30px rgba(0,0,0,0.5);
 }
 
-/* Ajustements visuels pour le mode sombre */
+
 body.theme-dark .site-header {
   background:linear-gradient(180deg, rgba(30,30,30,0.9), rgba(30,30,30,0.8));
   border-bottom:1px solid rgba(240,240,240,0.08);
 }
 body.theme-dark .card {
-  background: var(--card); /* Utilise la variable --card mise à jour */
+  background: var(--card);
 }
 body.theme-dark .skill .bar > i{
   background: linear-gradient(90deg, #bbbbbb, #a0a0a0);
@@ -42,11 +41,10 @@ body.theme-dark .testimonial{
   background:linear-gradient(180deg,#2c2c2c,#3a3a3a);
 }
 body.theme-dark .input, body.theme-dark textarea{
-  /* Nouvelle base plus glass pour le mode sombre */
   background: rgba(58, 58, 58, 0.6); 
   border: 1px solid rgba(240,240,240,0.1);
   color: var(--text);
-  backdrop-filter: blur(8px); /* AJOUT DE BLUR pour le mode sombre */
+  backdrop-filter: blur(8px);
 }
 body.theme-dark .site-footer{
     border-top:1px solid rgba(240,240,240,0.04);
@@ -54,7 +52,7 @@ body.theme-dark .site-footer{
 body.theme-dark .social svg{
     fill: var(--muted);
 }
-/* Le style des boutons en mode sombre est conservé pour la bordure RGB et le fond glass */
+
 body.theme-dark .btn{
   background: linear-gradient(var(--bg), var(--bg)) padding-box,
               linear-gradient(90deg, 
@@ -78,27 +76,24 @@ body{
   -webkit-tap-highlight-color: transparent;
 }
 
-/* Layout */
 .container{
   max-width:var(--container-width);
   margin:0 auto;
   padding:0 28px;
 }
 
-/* Header - STABLE - FORCE GPU LAYER */
 .site-header{
   position:fixed;
   top:0;
   left:0;
   right:0;
-  /* Augmentation de l'effet glass */
   backdrop-filter: blur(12px) saturate(180%); 
-  background:linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.8)); /* Légèrement moins opaque */
+  background:linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.8));
   border-bottom:1px solid rgba(15,23,42,0.08);
   z-index:1000;
   height:60px;
-  transform: translateZ(0); /* Force GPU layer pour isolation */
-  will-change: transform; /* Garde le layer GPU actif */
+  transform: translateZ(0);
+  will-change: transform; 
 }
 
 .header-inner{
@@ -109,13 +104,9 @@ body{
   display:flex;
   align-items:center;
   justify-content:space-between;
-  transform: translateZ(0); /* Force GPU layer */
+  transform: translateZ(0);
 }
 
-/* Brand - Supprimé dans index.html */
-/* .brand{...} */ 
-
-/* Nav - STABLE - Largeur fixe pour éviter le mouvement */
 .nav-list{
   display:flex;
   gap:8px;
@@ -124,24 +115,22 @@ body{
   padding:0;
   align-items:center;
   flex-shrink:0;
-  transform: translateZ(0); /* Force GPU layer */
+  transform: translateZ(0);
 }
 
 .nav-list li{
-  transform: translateZ(0); /* Force GPU layer sur chaque item */
+  transform: translateZ(0);
 }
 
 .nav-list a{
   color:var(--muted);
   text-decoration:none;
-  /* CORRECTION: Les liens sont désormais en font-weight normal par défaut */
   font-weight:400; 
   font-size:14px;
   padding:8px 14px;
   border-radius:8px;
   white-space: nowrap;
   
-  /* FIX ANTI-SAUT FONT-WEIGHT: Pré-charge les glyphes épais en white-space */
   font-feature-settings: "liga" 0;
   font-variation-settings: 'wght' 400;
   
@@ -152,7 +141,6 @@ body{
   backface-visibility: hidden; 
 }
 
-/* Effet RGB défilant au hover sur les liens de navigation (CONSERVÉ) */
 .nav-list a:hover{
   background: linear-gradient(90deg, 
     #ff0080,
@@ -169,14 +157,12 @@ body{
   background-clip: text;
   -webkit-text-fill-color: transparent;
   animation: rgb-cycle 3s linear infinite;
-  color: transparent; /* S'assure que la couleur de base n'interfère pas */
+  color: transparent; 
   
-  /* FIX: S'assure que le font-weight 400 (normal) est utilisé pour le survol non actif */
   font-weight: 400; 
-  font-variation-settings: 'wght' 400; /* Assure la stabilité */
+  font-variation-settings: 'wght' 400;
 }
 
-/* Page active - RGB DÉFILANT, SANS FOND (CONSERVÉ) */
 .nav-list a.active{
   background: linear-gradient(90deg, 
     #ff0080,
@@ -194,180 +180,157 @@ body{
   -webkit-text-fill-color: transparent;
   animation: rgb-cycle 3s linear infinite;
   
-  /* FIX: Utilise le gras */
-  font-weight: 600; /* Le lien actif est en gras */
-  font-variation-settings: 'wght' 600; /* Assure le gras */
+  font-weight: 600;
+  font-variation-settings: 'wght' 600;
   
   background-color: transparent; 
-  color: transparent; /* Assure que le texte est bien transparent pour voir le gradient */
+  color: transparent; 
 }
 
-/* NOUVEAU: Conteneur des boutons de contrôle */
 .header-controls {
-    display: flex;
-    align-items: center;
-    gap: 8px; /* Espace entre les deux boutons */
+  display: flex;
+  align-items: center;
+  gap: 8px; 
 }
 
-/* Style du bouton bascule du thème */
 .theme-toggle{
   background:none;
   border:0;
   padding:8px;
   border-radius:10px;
   cursor:pointer;
-  color:var(--text); /* Utilise la couleur du texte (bascule avec le thème) */
+  color:var(--text);
   transition: transform 0.2s ease, color 0.2s ease;
 }
 
 .theme-toggle:hover {
-    color: var(--accent);
-    transform: scale(1.05);
+  color: var(--accent);
+  transform: scale(1.05);
 }
 
 /* --- STYLES DES BOUTONS DE LANGUE (FR/EN) --- */
 
 .lang-button {
-    height: 32px; /* Réduit la hauteur */
-    padding: 0 8px; /* Réduit le padding */
-    border-radius: 10px;
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: 600;
-    line-height: 32px; /* Centre le texte */
-    flex-shrink: 0;
-    transition: transform 0.2s ease, opacity 0.3s ease, box-shadow 0.3s ease, background 0.2s ease, border 0.2s ease;
-    
-    /* Style par défaut (non actif): Fond blanc/sombre, PAS de contour */
-    border: 1px solid transparent; 
-    background: var(--bg);
-    color: var(--text);
-    opacity: 0.8;
+  height: 32px;
+  padding: 0 8px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 32px;
+  flex-shrink: 0;
+  transition: transform 0.2s ease, opacity 0.3s ease, box-shadow 0.3s ease, background 0.2s ease, border 0.2s ease;
+
+  border: 1px solid transparent; 
+  background: var(--bg);
+  color: var(--text);
+  opacity: 0.8;
 }
 
 .lang-button:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 4px 8px rgba(15, 23, 42, 0.05);
-    opacity: 1;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(15, 23, 42, 0.05);
+  opacity: 1;
 }
 
-/* Style Français (Contour tricolore, Fond uni) */
+
 .lang-fr.active {
-    opacity: 1;
-    color: var(--text);
-    /* Définit une bordure virtuelle de 1px avec le tricolore (Bleu, Blanc, Rouge) */
-    border: 1px solid transparent; 
-    
-    background-image: linear-gradient(var(--bg), var(--bg)), 
-                      linear-gradient(90deg, 
-                        #0059b3 0%, #0059b3 33.3%, 
-                        #ffffff 33.3%, #ffffff 66.6%, 
-                        #cc0000 66.6%, #cc0000 100%
-                      );
-    background-origin: border-box;
-    background-clip: padding-box, border-box;
+  opacity: 1;
+  color: var(--text);
+  border: 1px solid transparent; 
+  
+  background-image: linear-gradient(var(--bg), var(--bg)), 
+                    linear-gradient(90deg, 
+                      #0059b3 0%, #0059b3 33.3%, 
+                      #ffffff 33.3%, #ffffff 66.6%, 
+                      #cc0000 66.6%, #cc0000 100%
+                    );
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
 }
 
 body.theme-dark .lang-fr.active {
-    /* Version plus douce des couleurs pour le contour sombre */
-    background-image: linear-gradient(var(--bg), var(--bg)), 
-                      linear-gradient(90deg, 
-                        #007aff 0%, #007aff 33.3%, 
-                        #f0f0f0 33.3%, #f0f0f0 66.6%, 
-                        #ff4040 66.6%, #ff4040 100% 
-                      );
+  background-image: linear-gradient(var(--bg), var(--bg)), 
+                    linear-gradient(90deg, 
+                      #007aff 0%, #007aff 33.3%, 
+                      #f0f0f0 33.3%, #f0f0f0 66.6%, 
+                      #ff4040 66.6%, #ff4040 100% 
+                    );
 }
 
-
-/* Style Anglais (Contour noir/sombre, Fond uni) */
 .lang-en.active {
-    opacity: 1;
-    /* Contour de 1px d'épaisseur */
-    border: 1px solid var(--text); 
-    background: var(--bg);
-    color: var(--text);
-    box-shadow: none; /* Pas de shadow/glow */
+  opacity: 1;
+  border: 1px solid var(--text); 
+  background: var(--bg);
+  color: var(--text);
+  box-shadow: none; 
 }
 body.theme-dark .lang-en.active {
-    /* Contour de 1px blanc/clair en mode sombre */
-    border: 1px solid var(--text); 
-    background: var(--bg);
-    color: var(--text);
+  border: 1px solid var(--text); 
+  background: var(--bg);
+  color: var(--text);
 }
-/* --- FIN DES STYLES DE LANGUE --- */
 
-
-/* --- STYLES POUR LES BLOCS DE COMPÉTENCES (SKILL TAGS) --- */
 .skill-tag {
-    /* Style de base de la box */
-    display: inline-block;
-    padding: 4px 8px;
-    font-size: 13px;
-    font-weight: 500;
-    border-radius: 6px;
-    margin-bottom: 4px; /* Pour l'alignement flex-wrap */
-    
-    /* Fond BLANC (ou sombre en mode dark) UNI */
-    background: var(--bg); 
-    color: var(--text);
-    border: 1px solid rgba(15, 23, 42, 0.1); 
-    
-    /* Préparation pour l'animation RGB */
-    position: relative;
-    z-index: 1; /* Assure que le texte est au-dessus */
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: inline-block;
+  padding: 4px 8px;
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: 6px;
+  margin-bottom: 4px;
+  
+  background: var(--bg); 
+  color: var(--text);
+  border: 1px solid rgba(15, 23, 42, 0.1); 
+  
+  position: relative;
+  z-index: 1;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 
-    /* Setup pour le contour RGB (par défaut invisible) */
-    background-image: linear-gradient(var(--bg), var(--bg)), /* Fond BLANC */
-                      linear-gradient(90deg, transparent, transparent); /* Contour transparent */
-    background-origin: border-box;
-    background-clip: padding-box, border-box;
-    background-size: 100% 100%, 400% 100%; /* Taille nécessaire pour l'animation */
-    border-width: 1px;
+  background-image: linear-gradient(var(--bg), var(--bg)),
+                    linear-gradient(90deg, transparent, transparent);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  background-size: 100% 100%, 400% 100%;
+  border-width: 1px;
 }
 
-/* RGB Contour au survol */
 .skill-tag:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.1);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.1);
 
-    /* Activation du contour RGB */
-    border-color: transparent; /* Désactive la bordure solide */
-    background-image: linear-gradient(var(--bg), var(--bg)), 
-                      linear-gradient(90deg, 
-                        #ff0080, #ff4d00, #ffaa00, #00ff88, #00d4ff, #0088ff, #8800ff, #ff0080 
-                      );
-    background-origin: border-box;
-    background-clip: padding-box, border-box;
-    animation: btn-gradient 6s linear infinite; /* Réutilise l'animation de défilement RGB */
+  border-color: transparent;
+  background-image: linear-gradient(var(--bg), var(--bg)), 
+                    linear-gradient(90deg, 
+                      #ff0080, #ff4d00, #ffaa00, #00ff88, #00d4ff, #0088ff, #8800ff, #ff0080 
+                    );
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  animation: btn-gradient 6s linear infinite;
 }
-/* --- FIN STYLES BLOCS DE COMPÉTENCES --- */
 
-/* --- STYLES DE LA TIMELINE CV (Points d'étape) --- */
 .timeline-item {
-    position: relative;
+  position: relative;
 }
 
 .timeline-item.timeline-bullet::before {
-    content: '';
-    position: absolute;
-    left: -22px; 
-    top: 8px; 
-    width: 8px;
-    height: 8px;
-    background: var(--text); /* Couleur du point */
-    border-radius: 50%;
-    z-index: 2; /* Assure que le point est au-dessus de la ligne */
-    box-shadow: 0 0 0 3px var(--bg); /* Un anneau blanc autour pour le détacher */
+  content: '';
+  position: absolute;
+  left: -22px; 
+  top: 8px; 
+  width: 8px;
+  height: 8px;
+  background: var(--text);
+  border-radius: 50%;
+  z-index: 2;
+  box-shadow: 0 0 0 3px var(--bg);
 }
 
 body.theme-dark .timeline-item.timeline-bullet::before {
-    background: var(--text);
-    box-shadow: 0 0 0 3px var(--bg);
+  background: var(--text);
+  box-shadow: 0 0 0 3px var(--bg);
 }
 
-
-/* FIX: Assure une taille fixe pour l'icône pour éviter le saut (reflow) */
 .theme-toggle svg {
     width: 20px;
     height: 20px;
@@ -385,27 +348,22 @@ body.theme-dark .timeline-item.timeline-bullet::before {
   color:var(--text); 
 }
 
-/* Main content */
 .main-content{
-  /* Retire le padding horizontal fixe pour mobile pour éviter le décalage sur iOS. */
   max-width: var(--container-width);
   margin: 0 auto;
-  padding: 90px 28px 80px 28px; /* Padding standard Desktop */
-  
+  padding: 90px 28px 80px 28px;
   min-height:70vh;
   transition: opacity 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-/* Sections style - AJOUT DE PADDING */
 .section{
   background:transparent;
   margin:18px 0;
-  padding: 0 0 24px 0; /* Padding en bas seulement, le contenu des cards gère le reste */
+  padding: 0 0 24px 0;
   border-radius:12px;
   position:relative;
 }
 
-/* Titres de PAGES (h1) - TEXTE NORMAL (pas de RGB) */
 .h1 {
   font-size:34px;
   margin:0 0 8px 0;
@@ -414,7 +372,6 @@ body.theme-dark .timeline-item.timeline-bullet::before {
   color: var(--text);
 }
 
-/* Titres de sections/blocs (h2 dans .section) - PAS de RGB, texte normal */
 .section .h2,
 .h2{
   font-size:20px;
@@ -425,7 +382,6 @@ body.theme-dark .timeline-item.timeline-bullet::before {
   text-align: left;
 }
 
-/* Titres dans cards (h3, titres de projets/engagements) - PAS de RGB */
 .card h3,
 .card .h3,
 h3, .h3{
@@ -444,74 +400,61 @@ h3, .h3{
   }
 }
 
-/* Cards - Liquid Glass (SANS RGB au hover) */
 .card{
-  /* Utilise la variable --card et augmente l'effet de flou */
   background: var(--card); 
-  backdrop-filter: blur(12px); /* Augmentation de l'effet de flou */
-  border-radius:14px; /* Un peu plus arrondi */
+  backdrop-filter: blur(12px);
+  border-radius:14px;
   box-shadow:var(--shadow);
-  /* Transition sur le transform et box-shadow uniquement */
+
   transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.3s ease; 
   padding: 18px 20px;
   position: relative; 
   
-  /* AJOUT DE LA BORDURE SUBTILE */
-  border: 1px solid rgba(142, 142, 147, 0.3); /* Bordure subtile de base */
+  border: 1px solid rgba(142, 142, 147, 0.3);
 }
 
-/* Retire l'animation et l'effet RGB sur le survol des cartes */
 .card:hover{
-  transform:translateY(-6px); /* Mouvement plus léger au hover */
-  box-shadow: 0 12px 40px rgba(15,23,42,0.12); /* Ombre plus douce */
-  
-  /* RETOUR AU STYLE INITIAL SANS RGB/Gradient/animation */
+  transform:translateY(-6px);
+  box-shadow: 0 12px 40px rgba(15,23,42,0.12);
   background: var(--card); 
-  border: 1px solid rgba(142, 142, 147, 0.3); /* Conserve la bordure simple */
+  border: 1px solid rgba(142, 142, 147, 0.3);
   animation: none;
 }
 
-/* === AJOUT UNIQUE : Styles pour les Engagements (RGB au hover ou si open) === */
 .card.engagement:hover,
 .card.engagement.open {
-    border: 2px solid transparent;
-    background: linear-gradient(var(--bg), var(--bg)) padding-box,
-                linear-gradient(90deg, #ff0080, #ff4d00, #ffaa00, #00ff88, #00d4ff, #0088ff, #8800ff, #ff0080) border-box;
-    background-size: 100% 100%, 400% 100%;
-    animation: btn-gradient 6s linear infinite;
-    transform: translateY(-4px);
+  border: 2px solid transparent;
+  background: linear-gradient(var(--bg), var(--bg)) padding-box,
+              linear-gradient(90deg, #ff0080, #ff4d00, #ffaa00, #00ff88, #00d4ff, #0088ff, #8800ff, #ff0080) border-box;
+  background-size: 100% 100%, 400% 100%;
+  animation: btn-gradient 6s linear infinite;
+  transform: translateY(-4px);
 }
 
 .muted{color:var(--muted); font-size:14px}
 
-/* Home hero - Fond transparent, aucune ombre */
 .hero{
   display:flex;
   gap:36px;
   align-items:center;
   justify-content:space-between;
-  padding:36px; /* Garde un bon padding pour la section Hero */
+  padding:36px;
   background: transparent;
   border-radius:18px;
   box-shadow: none;
   border: none;
 }
 
-/* --- CORRECTION STYLES HERO IMAGE DESKTOP (Fixe la coupe) --- */
-/* --- HERO IMAGE DESKTOP (RECTANGLE PORTRAIT) --- */
-
 .hero-right {
-  /* Définition du cadre Rectangle Vertical */
   width: 280px; 
-  height: 380px; /* Plus haut que large pour l'effet portrait */
+  height: 380px;
   
   flex-shrink: 0;
-  border-radius: 24px; /* Coins arrondis sur le cadre */
+  border-radius: 24px;
   box-shadow: var(--shadow);
-  overflow: hidden; /* Force l'image à respecter les coins arrondis */
+  overflow: hidden;
   position: relative;
-  
-  /* Centrage optionnel si jamais l'image ne charge pas */
+
   display: flex;
   justify-content: center;
   align-items: center;
@@ -521,49 +464,39 @@ h3, .h3{
 .hero-image {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* L'image remplit tout le rectangle sans déformation (elle est rognée si besoin) */
+  object-fit: cover;
   display: block;
-  /* On retire les anciens styles de positionnement absolu/transform */
   position: static; 
   transform: none;
-  border-radius: 0; /* C'est le conteneur .hero-right qui gère l'arrondi */
+  border-radius: 0;
   box-shadow: none;
 }
 
-/* --- RESPONSIVE MOBILE --- */
-
 @media (max-width:900px){
-  /* ... (tes autres règles mobile) ... */
 
   .hero-right {
-      /* Sur mobile, on retire le cadre rigide du desktop */
-      width: 100%;
-      height: auto; 
-      order: -1; 
-      margin-bottom: 24px;
-      
-      /* On désactive le style "cadre" du desktop pour laisser l'image libre */
-      box-shadow: none;
-      border-radius: 0;
-      background: transparent;
-      overflow: visible;
+    width: 100%;
+    height: auto; 
+    order: -1; 
+    margin-bottom: 24px;
+
+    box-shadow: none;
+    border-radius: 0;
+    background: transparent;
+    overflow: visible;
   }
   
   .hero-image {
-      /* L'image redevient un élément simple centré */
-      width: 70%; /* Taille agréable sur mobile */
-      max-width: 280px; 
-      height: auto; /* Hauteur automatique pour garder le ratio d'origine de la photo */
-      margin: 0 auto; 
-      display: block;
-      
-      /* On remet l'arrondi et l'ombre directement sur l'image pour le mobile */
-      border-radius: 24px;
-      box-shadow: var(--shadow);
+    width: 70%;
+    max-width: 280px; 
+    height: auto;
+    margin: 0 auto; 
+    display: block;
+
+    border-radius: 24px;
+    box-shadow: var(--shadow);
   }
 }
-/* --- FIN CORRECTION STYLES HERO IMAGE DESKTOP --- */
-
 
 .hero-left{flex:1;min-width:0}
 .hero-title{
@@ -575,7 +508,6 @@ h3, .h3{
 .hero-sub{color:var(--muted);margin-bottom:18px}
 .cta-row{display:flex; gap:12px; align-items:center}
 
-/* Boutons - Bordure RGB animée UNIQUEMENT */
 .btn{
   display:inline-flex;
   align-items:center;
@@ -586,7 +518,7 @@ h3, .h3{
   font-weight:600;
   text-decoration:none;
   cursor:pointer;
-  /* Fond BLANC (ou sombre en mode dark) UNI */
+
   background: linear-gradient(var(--bg), var(--bg)) padding-box, 
               linear-gradient(90deg, 
                 #ff0080,    /* Rose magenta */
@@ -596,20 +528,18 @@ h3, .h3{
                 #00d4ff,    /* Cyan */
                 #0088ff,    /* Bleu */
                 #8800ff,    /* Violet */
-                #ff0080     /* Retour au rose pour boucle parfaite */
-              ) border-box; /* Bordure RGB */
+                #ff0080     /* Retour au rose pour boucle */
+              ) border-box;
   background-size: 100% 100%, 400% 100%;
   color: var(--text);
   position: relative;
   transition: transform 0.3s ease;
-  animation: btn-gradient 6s linear infinite; /* Animation RGB active */
+  animation: btn-gradient 6s linear infinite;
   will-change: background-position;
 }
 
-/* Supprime l'effet ::after (glow) */
 .btn:hover {
   transform: translateY(-2px);
-  /* Pas de box-shadow ni de glow */
 }
 
 @keyframes btn-gradient {
@@ -622,10 +552,8 @@ h3, .h3{
 }
 
 .btn-primary, .btn-ghost {
-  /* Hérite du style de base .btn */
 }
 
-/* Card grid */
 .grid{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
@@ -633,12 +561,10 @@ h3, .h3{
   margin-top:18px;
 }
 
-/* Resume timeline */
 .timeline{border-left:2px solid rgba(15,23,42,0.06);padding-left:18px}
 .timeline-item{margin-bottom:18px;padding-left:8px}
 .timeline-item .muted{font-size:13px}
 
-/* Skills bars - Simple sans RGB */
 .skill{
   display:flex;align-items:center;gap:12px;margin-bottom:12px;
 }
@@ -661,269 +587,222 @@ h3, .h3{
   width:0%;
 }
 
-/* Testimonials - AJOUT DE PADDING */
 .testimonial{
-  padding:18px 20px; /* Ajout de padding */
+  padding:18px 20px;
   border-radius:12px;
   background:linear-gradient(180deg,#fff,#fbfbfe);
   box-shadow:var(--shadow)
 }
 .testimonial .quote{font-style:italic;color:var(--muted)}
 
-/* Contact form */
 .contact-form{display:grid;gap:12px;max-width:680px}
 .input, textarea{
   padding:12px;
-  border-radius:12px; /* Plus arrondi pour l'effet glass */
-  border:1px solid rgba(15,23,42,0.1); /* Bordure plus visible */
+  border-radius:12px;
+  border:1px solid rgba(15,23,42,0.1);
   font-size:15px;
   width:100%;
   outline:none;
   
-  /* AJOUT DE L'EFFET GLASS */
-  background: rgba(255, 255, 255, 0.6); /* Fond plus transparent */
+  background: rgba(255, 255, 255, 0.6);
   backdrop-filter: blur(8px); 
   transition: all 0.3s ease;
 }
 
 .input:focus, textarea:focus{
-    border-color: #007aff; /* Couleur d'accentuation Apple-like */
-    box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.2);
+  border-color: #007aff; 
+  box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.2);
 }
 
 textarea{min-height:140px;resize:vertical}
 .form-row{display:flex;gap:12px}
 
-/* Footer */
 .site-footer{border-top:1px solid rgba(15,23,42,0.04);padding:22px 0;background:transparent}
 .footer-inner{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:12px;
-    /* FIX: Assure que le contenu du footer est contenu par le .container */
-    max-width: var(--container-width);
-    margin: 0 auto;
-    padding: 0 28px; /* Padding standard desktop */
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: 0 28px;
 }
 .socials{display:flex;gap:12px}
 
-/* REDUCTION ET UNIFORMISATION DE LA TAILLE DES LOGOS */
 .socials-icon {
-    width: 24px; /* Logo LinkedIn (image) */
-    height: 24px;
+  width: 24px;
+  height: 24px;
 }
 .social svg{
-    width: 24px; /* Logo GitHub (SVG) */
-    height: 24px;
-    fill:var(--muted);
+  width: 24px;
+  height: 24px;
+  fill:var(--muted);
 }
 
-/* Loader overlay for page transitions */
 .page-loader{
   position:fixed;inset:0;pointer-events:none;opacity:0;transition:opacity .28s ease;background:linear-gradient(90deg, rgba(142, 142, 147, 0.06), rgba(255,255,255,0));
 }
 .page-loader.active{opacity:1;pointer-events:auto}
 
-/* Small touches */
 a{color:var(--accent)}
 small{color:var(--muted)}
 
-/* Cache le conteneur du bouton CV du haut sur desktop */
 .cv-top-btn-mobile {
-    display: none; 
+  display: none; 
 }
 
-
-/* Responsive */
 @media (max-width:900px){
-  /* Masque le menu par défaut sur mobile (géré par JS au clic) */
   .nav-list{display:none} 
 
-  /* Le bouton de bascule mobile apparaît */
   .mobile-toggle{display:block}
   
-  /* FIX MAJEUR: Accueil / Décalage et Marge */
   .main-content {
-      /* Réduit le padding horizontal standard à une valeur mobile (18px) */
-      padding: 90px 18px 80px 18px; 
+    padding: 90px 18px 80px 18px; 
   }
   
-  /* Annule le padding du conteneur intérieur pour laisser .main-content gérer l'espacement */
   .container {
-      padding: 0; 
+    padding: 0; 
   }
   
-  /* Assure que l'en-tête utilise le même espacement pour correspondre au contenu */
   .header-inner {
-      padding: 0 18px;
+    padding: 0 18px;
   }
   
   .hero{
     flex-direction:column;
     align-items:flex-start;
-    padding: 18px; /* Applique le padding manquant ici */
+    padding: 18px; 
   }
   
-  /* ✅ CORRECTION: Style pour l'image sur mobile */
   .hero-right {
-      /* Sur mobile, le conteneur image prend la pleine largeur et se place au-dessus */
-      width: 100%;
-      order: -1; 
-      margin-bottom: 18px;
-      height: auto; 
-      justify-content: center; 
+    width: 100%;
+    order: -1; 
+    margin-bottom: 18px;
+    height: auto; 
+    justify-content: center; 
   }
   
   .hero-image {
-      /* L'image reprend une taille normale pour ne pas déborder */
-      width: 80%; 
-      max-width: 240px; 
-      height: auto;
-      transform: none; /* Annule le décalage translateX/translateY du desktop */
-      margin: 0 auto; 
-      /* Conserve la border-radius et l'ombre */
+    width: 80%; 
+    max-width: 240px; 
+    height: auto;
+    transform: none; 
+    margin: 0 auto; 
   }
-  /* --- FIN CORRECTION MOBILE IMAGE --- */
-  
-  /* FIX: Pied de page Mobile (Socials et Texte) */
+
   .site-footer .footer-inner {
-      flex-direction: column;
-      align-items: flex-start;
-      padding: 0 18px; /* Applique le padding interne du conteneur */
-      /* La ligne du milieu a été supprimée dans index.html, donc on aligne le copyright */
-      justify-content: space-between;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0 18px;
+    justify-content: space-between;
   }
   .site-footer .socials {
-      margin-top: 8px;
+    margin-top: 8px;
   }
   
-  /* FIX: CV / Grille - Passe en colonne unique (1fr) sur mobile */
   .main-content .grid {
-    grid-template-columns: 1fr !important; /* Force la colonne unique */
+    grid-template-columns: 1fr !important;
     padding: 0 18px; 
     width: auto; 
   }
 
-  /* NOUVEAU FIX: Empilement des boutons CTA sur mobile */
   .cta-row.mobile-stack {
-      flex-direction: column; /* Force les éléments à s'empiler */
-      width: 100%;
+    flex-direction: column;
+    width: 100%;
   }
   
-  /* CORRECTION: Centrage du texte des boutons empilés */
   .cta-row.mobile-stack .btn {
-      width: 100%; 
-      margin-bottom: 8px; 
-      /* NOUVEAU STYLE: Centre le contenu du flex (texte et icône) */
-      justify-content: center; 
+    width: 100%; 
+    margin-bottom: 8px; 
+    justify-content: center; 
   }
 
   .cta-row.mobile-stack .mobile-full-width {
-      /* Le bouton CV prend la pleine largeur et se place naturellement en dessous */
-      width: 100%;
-      margin-top: 0; 
+    width: 100%;
+    margin-top: 0; 
   }
 
-  /* FIX: Styles pour le menu mobile OUVERT */
   .nav-list.open {
-    display: flex; /* Affiche le menu */
-    position: fixed; /* Position fixe par rapport au viewport */
-    top: 60px; /* Sous le header (hauteur 60px) */
+    display: flex;
+    position: fixed;
+    top: 60px;
     left: 0;
     right: 0;
-    flex-direction: column; /* Mise en page verticale */
-    background: var(--bg); /* Fond pour cacher le contenu */
-    border-top: 1px solid rgba(15,23,42,0.08); /* Ligne de séparation */
+    flex-direction: column;
+    background: var(--bg);
+    border-top: 1px solid rgba(15,23,42,0.08);
     box-shadow: var(--shadow);
     padding: 10px 0 20px 0;
-    max-height: calc(100vh - 60px); /* Empêche le menu de déborder l'écran */
-    overflow-y: auto; /* Permet le défilement du menu si nécessaire */
+    max-height: calc(100vh - 60px);
+    overflow-y: auto;
     z-index: 999;
   }
   
   .nav-list li {
-    width: 100%; /* Les éléments de liste prennent toute la largeur */
+    width: 100%;
   }
   
   .nav-list a {
-    display: block; /* Rendre le lien cliquable sur toute la largeur */
-    padding: 14px 28px; /* Grand padding pour faciliter le clic mobile */
+    display: block;
+    padding: 14px 28px;
     border-radius: 0; 
     text-align: left;
     font-size: 16px;
     font-weight: 500;
   }
-  
-  /* --- DANS LA SECTION MOBILE @media (max-width:900px) --- */
-  
-  /* CORRECTION : On force le fond transparent au "survol" sur mobile 
-     pour éviter que la couleur reste collée après un clic (Sticky Hover) */
+
   .nav-list a:hover {
-    background: transparent !important; /* Force la transparence */
+    background: transparent !important;
     color: var(--text);
     animation: none;
   }
   
-  /* SEUL l'élément actif (géré par le JS) doit avoir le fond */
   .nav-list a.active {
-    background: var(--card); /* Fond visible uniquement si actif */
-    -webkit-text-fill-color: var(--text); /* Assure la couleur du texte */
+    background: var(--card);
+    -webkit-text-fill-color: var(--text);
     color: var(--text);
     animation: none;
     font-weight: 600;
   }
   
-  /* NOUVEAU: Afficher le bouton CV du haut et le mettre en pleine largeur */
   .cv-top-btn-mobile {
-      display: block; 
-      margin-bottom: 18px; 
-      padding: 0 18px; 
+    display: block; 
+    margin-bottom: 18px; 
+    padding: 0 18px; 
   }
   .cv-top-btn-mobile .btn {
-      width: 100%;
-      justify-content: center;
+    width: 100%;
+    justify-content: center;
   }
 
-  /* Cache le bloc de téléchargement CV dans l'aside sur mobile */
   aside .download-cv-box {
-      display: none;
+    display: none;
   }
-  
-  /* Styles existants pour les autres éléments */
+
   .footer-inner{flex-direction:column;align-items:flex-start}
 }
 
-/* --- CORRECTION ANIMATION RGB PERMANENTE --- */
-
-/* 1. On définit une animation explicite qui déplace uniquement la 2ème image (le dégradé) */
 @keyframes rgb-scroll-loop {
   0% {
-    background-position: 0% 50%, 0% 50%; /* Image 1 (fixe), Image 2 (début) */
+    background-position: 0% 50%, 0% 50%; 
   }
   100% {
-    background-position: 0% 50%, 200% 50%; /* Image 1 (fixe), Image 2 (fin de boucle) */
+    background-position: 0% 50%, 200% 50%;
   }
 }
 
-/* 2. La classe qui applique le style */
 .rgb-highlight {
-    border: 2px solid transparent !important;
+  border: 2px solid transparent !important;
 
-    /* Définition explicite des deux couches : Fond couleur page (var(--bg)) + Gradient RGB */
-    background-image: linear-gradient(var(--bg), var(--bg)), 
-                      linear-gradient(90deg, #ff0080, #ff4d00, #ffaa00, #00ff88, #00d4ff, #0088ff, #8800ff, #ff0080) !important;
+  background-image: linear-gradient(var(--bg), var(--bg)), 
+                    linear-gradient(90deg, #ff0080, #ff4d00, #ffaa00, #00ff88, #00d4ff, #0088ff, #8800ff, #ff0080) !important;
 
-    /* IMPORTANT : Le gradient (2ème valeur) doit être plus grand (200%) pour pouvoir défiler */
-    background-size: 100% 100%, 200% 100% !important;
+  background-size: 100% 100%, 200% 100% !important;
 
-    /* Configuration des masques : le fond s'arrête au padding, le gradient va jusqu'à la bordure */
-    background-clip: padding-box, border-box !important;
-    background-origin: padding-box, border-box !important;
+  background-clip: padding-box, border-box !important;
+  background-origin: padding-box, border-box !important;
 
-    /* Lancement de l'animation fluide et infinie */
-    animation: rgb-scroll-loop 3s linear infinite !important;
-    
-    /* Petit effet de soulèvement permanent pour accentuer l'importance */
-    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.15) !important;
+  animation: rgb-scroll-loop 3s linear infinite !important;
+  
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.15) !important;
 }
